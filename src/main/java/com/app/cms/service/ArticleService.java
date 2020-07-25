@@ -15,6 +15,7 @@ public class ArticleService {
     }
 
     public Article create(Article article) {
+
         return articleRepository.save(article);
     }
 }

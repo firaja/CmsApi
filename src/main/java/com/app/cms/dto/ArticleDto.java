@@ -1,6 +1,9 @@
-package com.app.cms.entity;
+package com.app.cms.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +16,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Builder
 @AllArgsConstructor
-public class Article {
+public class ArticleDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
