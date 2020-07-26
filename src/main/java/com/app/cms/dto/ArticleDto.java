@@ -1,31 +1,44 @@
 package com.app.cms.dto;
 
+import com.app.cms.entity.Category;
+import com.app.cms.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+import java.util.Date;
 
-@Entity
-@Getter
-@Setter
-@Builder
+
+@Data
+@Builder(toBuilder = true)
+@NoArgsConstructor
 @AllArgsConstructor
 public class ArticleDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @NotBlank
+    @Size(max = 200)
     private String title;
 
     @NotBlank
+    @Size(max = 4000)
     private String content;
 
+    @NotNull
+    @Past
+    private Date creationDate;
+
+    @NotNull
+    private Long userId;
+
+    @NotNull
+    private Long categoryId;
+
+    private Integer rate;
 }
