@@ -26,9 +26,6 @@ import static org.mockito.BDDMockito.given;
 public class ArticleMapperTest {
 
     @Mock
-    private ArticleRepository articleRepository;
-
-    @Mock
     private UserRepository userRepository;
 
     @Mock
@@ -59,8 +56,9 @@ public class ArticleMapperTest {
                 .creationDate(creationDate)
                 .rate(rate)
                 .build();
-        given(categoryRepository.getOne(-20L)).willReturn(Category.builder().id(categoryId).build());
-        given(userRepository.getOne(-30L)).willReturn(User.builder().id(userId).build());
+
+        given(categoryRepository.getOne(categoryId)).willReturn(Category.builder().id(categoryId).build());
+        given(userRepository.getOne(userId)).willReturn(User.builder().id(userId).build());
 
         //when
         var article =  articleMapper.convertToEntity(articleDto);
@@ -81,13 +79,20 @@ public class ArticleMapperTest {
     @Test
     public void shouldConvertEntityToDto() {
         //given
+        String title = "title test";
+        String content = "content test";
+        long articleId = -1L;
+        long userId = -5L;
+        long categoryId = -10L;
+        int rate = 33;
+
         var article = Article.builder()
-                .id(-1L)
-                .title("title test")
-                .content("content test")
-                .rate(33)
-                .user(User.builder().id(-5L).build())
-                .category(Category.builder().id(-10L).build())
+                .id(articleId)
+                .title(title)
+                .content(content)
+                .rate(rate)
+                .user(User.builder().id(userId).build())
+                .category(Category.builder().id(categoryId).build())
                 .creationDate(new Date())
                 .build();
 
@@ -95,6 +100,12 @@ public class ArticleMapperTest {
         var articleDto = articleMapper.convertToDto(article);
 
         //then
-        then(articleDto).isNotNull();
+        then(articleDto.getId()).isEqualTo(articleId);
+        then(articleDto.getTitle()).isEqualTo(title);
+        then(articleDto.getContent()).isEqualTo(content);
+        then(articleDto.getCategoryId()).isEqualTo(categoryId);
+        then(articleDto.getUserId()).isEqualTo(userId);
+        then(articleDto.getRate()).isEqualTo(rate);
+        then(articleDto.getCreationDate()).isNotNull();
     }
 }
