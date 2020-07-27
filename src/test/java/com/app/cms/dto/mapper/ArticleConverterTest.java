@@ -23,7 +23,7 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class ArticleMapperTest {
+public class ArticleConverterTest {
 
     @Mock
     private ArticleRepository articleRepository;
@@ -38,7 +38,7 @@ public class ArticleMapperTest {
     private ModelMapper modelMapper;
 
     @InjectMocks
-    private ArticleMapper articleMapper;
+    private ArticleConverter articleConverter;
 
     @Test
     public void shouldConvertDtoToEntity() {
@@ -63,7 +63,7 @@ public class ArticleMapperTest {
         given(userRepository.getOne(-30L)).willReturn(User.builder().id(userId).build());
 
         //when
-        var article =  articleMapper.convertToEntity(articleDto);
+        var article =  articleConverter.convertToEntity(articleDto);
 
         //then
         then(article).isNotNull();
@@ -92,7 +92,7 @@ public class ArticleMapperTest {
                 .build();
 
         //when
-        var articleDto = articleMapper.convertToDto(article);
+        var articleDto = articleConverter.convertToDto(article);
 
         //then
         then(articleDto).isNotNull();

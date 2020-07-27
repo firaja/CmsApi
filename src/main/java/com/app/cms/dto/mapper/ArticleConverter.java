@@ -10,27 +10,25 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class ArticleMapper {
+public class ArticleConverter implements ObjectConverter<Article, ArticleDto> {
 
     private final ModelMapper modelMapper;
-    private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
-    public ArticleMapper(ModelMapper modelMapper, ArticleRepository articleRepository, UserRepository userRepository, CategoryRepository categoryRepository) {
+    public ArticleConverter(ModelMapper modelMapper, UserRepository userRepository, CategoryRepository categoryRepository) {
         this.modelMapper = modelMapper;
-        this.articleRepository = articleRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
     }
 
-    public ArticleDto convertToDto(Article article) {
-        ArticleDto articleDto = modelMapper.map(article, ArticleDto.class);
-
-        return articleDto;
+    @Override
+    public ArticleDto toDto(Article article) {
+        return modelMapper.map(article, ArticleDto.class);
     }
 
-    public Article convertToEntity(ArticleDto announcementDto) {
+    @Override
+    public Article toEntity(ArticleDto announcementDto) {
         Article article = modelMapper.map(announcementDto, Article.class);
 
         article.setCategory(categoryRepository.getOne(announcementDto.getCategoryId()));
