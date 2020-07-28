@@ -61,7 +61,7 @@ public class ArticleConverterTest {
         given(userRepository.getOne(userId)).willReturn(User.builder().id(userId).build());
 
         //when
-        var article =  articleConverter.convertToEntity(articleDto);
+        var article =  articleConverter.toEntity(articleDto);
 
         //then
         then(article).isNotNull();
@@ -97,7 +97,7 @@ public class ArticleConverterTest {
                 .build();
 
         //when
-        var articleDto = articleConverter.convertToDto(article);
+        var articleDto = articleConverter.toDto(article);
 
         //then
         then(articleDto.getId()).isEqualTo(articleId);

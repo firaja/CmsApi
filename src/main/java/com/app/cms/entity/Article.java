@@ -36,7 +36,6 @@ public class Article {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-
     private User user;
 
     @NotNull

@@ -1,26 +1,20 @@
-package com.app.cms.entity;
+package com.app.cms.dto;
 
+import com.app.cms.entity.Article;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Data
-@Builder(toBuilder = true)
+@Builder()
 @NoArgsConstructor
 @AllArgsConstructor
-
-@Entity
-public class Comment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class CommentDto {
     private Long id;
 
     @NotBlank
@@ -29,11 +23,7 @@ public class Comment {
     private String author;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Article article;
+    private Long articleId;
 
-    @Past
-    @NotNull
-    @Column(updatable = false)
     private Date creationDate;
 }
