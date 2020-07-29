@@ -1,6 +1,7 @@
 package com.app.cms.error.advice;
 
 
+import com.app.cms.error.type.NameIsInUseException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class ServiceErrorAdvice {
 
-    @ExceptionHandler({NameAlreadyExistsException.class})
+    @ExceptionHandler({NameIsInUseException.class})
     public  @ResponseBody ResponseEntity<Object> handleRunTimeException(RuntimeException e) {
         return error(HttpStatus.CONFLICT, e);
     }
