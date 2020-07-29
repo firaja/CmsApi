@@ -7,7 +7,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class NameAlreadyExistsException extends RuntimeException  {
 
 
+
     public NameAlreadyExistsException(String message) {
         super(message);
     }
+
+
+
 }
