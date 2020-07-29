@@ -3,6 +3,7 @@ package com.app.cms.controller;
 import com.app.cms.dto.CategoryDto;
 import com.app.cms.dto.mapper.CategoryConverter;
 import com.app.cms.repository.CategoryRepository;
+import com.app.cms.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +15,12 @@ public class CategoryController {
 
     private final CategoryRepository categoryRepository;
     private final CategoryConverter categoryConverter;
+    private final CategoryService categoryService;
 
-    public CategoryController(CategoryRepository categoryRepository, CategoryConverter categoryConverter) {
+    public CategoryController(CategoryRepository categoryRepository, CategoryConverter categoryConverter, CategoryService categoryService) {
         this.categoryRepository = categoryRepository;
         this.categoryConverter = categoryConverter;
+        this.categoryService = categoryService;
     }
 
     @GetMapping
@@ -28,7 +31,7 @@ public class CategoryController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CategoryDto createCategory(CategoryDto categoryDto) {
-        return null;
+        return categoryConverter.toDto(categoryService.createCategory(categoryConverter.toEntity(categoryDto)));
     }
 
 }

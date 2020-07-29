@@ -1,6 +1,7 @@
 package com.app.cms.service;
 
 import com.app.cms.entity.Category;
+import com.app.cms.error.advice.NameAlreadyExistsException;
 import com.app.cms.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,9 @@ public class CategoryService {
     }
 
     public Category createCategory(Category category) {
+        if(true)
+            throw new NameAlreadyExistsException("Category name is already in use");
+
         return categoryRepository.save(category);
     }
 
