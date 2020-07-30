@@ -13,13 +13,12 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public Article createArticle(Article article) {
+    public Article saveArticle(Article article) {
         return articleRepository.save(article);
-
     }
 
-    public Article updateArticle(Article article) {
-        return articleRepository.save(article);
+    public void deleteArticle(Long articleId) {
+        articleRepository.deleteById(articleId);
     }
 
 }

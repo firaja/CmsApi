@@ -1,4 +1,4 @@
-package com.app.cms.dto.mapper;
+package com.app.cms.dto.converter;
 
 import com.app.cms.dto.CommentDto;
 import com.app.cms.entity.Comment;

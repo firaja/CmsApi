@@ -1,14 +1,13 @@
 package com.app.cms.controller;
 
 import com.app.cms.dto.ArticleDto;
-import com.app.cms.dto.mapper.ArticleConverter;
+import com.app.cms.dto.converter.ArticleConverter;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.service.ArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,11 +28,11 @@ public class ArticleController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ArticleDto createArticle(@RequestBody @Valid ArticleDto article) {
-        return articleConverter.toDto(articleService.createArticle(articleConverter.toEntity(article)));
+        return articleConverter.toDto(articleService.saveArticle(articleConverter.toEntity(article)));
     }
 
     @GetMapping(value = "/{articleId}")
-    public ArticleDto getArticleById(@PathVariable @Min(1) Long articleId) {
+    public ArticleDto getArticleById(@PathVariable Long articleId) {
         return articleConverter.toDto(articleRepository.getOne(articleId));
     }
 
@@ -44,12 +43,12 @@ public class ArticleController {
 
     @DeleteMapping(value = "/{articleId}")
     public void deleteArticle(@PathVariable Long articleId) {
-        articleRepository.deleteById(articleId);
+        articleService.deleteArticle(articleId);
     }
 
     @PutMapping
     public ArticleDto updateArticle(@RequestBody @Valid ArticleDto articleDto) {
-        return articleConverter.toDto(articleService.updateArticle(articleConverter.toEntity(articleDto)));
+        return articleConverter.toDto(articleService.saveArticle(articleConverter.toEntity(articleDto)));
     }
 
 }

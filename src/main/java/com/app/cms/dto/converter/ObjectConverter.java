@@ -1,4 +1,4 @@
-package com.app.cms.dto.mapper;
+package com.app.cms.dto.converter;
 
 
 public interface ObjectConverter<E,D> {

@@ -20,16 +20,16 @@ public class CategoryValidator implements Validator<Category> {
 
     @Override
     public void validate(Category category) {
-        if(category.getId() == null) {
+        if (category.getId() == null) {
             validationOnCreation(category);
-        }
-        else {
+        } else {
             validationOnUpdate(category);
         }
     }
 
-    public void validateOnDelete(Category category) {
-        if(category.getId() != null && articleRepository.existsByCategory(category)) {
+    @Override
+    public void validateOnDelete(Long categoryId) {
+        if (articleRepository.existsByCategoryId(categoryId)) {
             var validationError = new ValidationError()
                     .appendDetail("name", "Category contains articles");
 
@@ -38,7 +38,7 @@ public class CategoryValidator implements Validator<Category> {
     }
 
     private void validationOnUpdate(Category category) {
-        if(categoryRepository.existsByNameAndIdNot(category.getName(), category.getId())) {
+        if (categoryRepository.existsByNameAndIdNot(category.getName(), category.getId())) {
             throwNameIsInUseException();
         }
     }

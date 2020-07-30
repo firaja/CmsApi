@@ -1,6 +1,7 @@
 package com.app.cms.service;
 
 import com.app.cms.entity.Category;
+import com.app.cms.error.type.NameIsInUseException;
 import com.app.cms.repository.CategoryRepository;
 import com.app.cms.validator.CategoryValidator;
 import org.junit.jupiter.api.Test;
@@ -10,9 +11,11 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -41,17 +44,41 @@ public class CategoryServiceTest {
         then(savedCategory.getName()).isEqualTo("category 1");
     }
 
- /*   @Test
-    public void shouldReturnErrorBecCategoryWithSameNameExists() {
+    @Test
+    public void shouldUpdateCategory() {
         //given
-        final var categoryToSave = Category.builder().name("category 1").build();
-        given(categoryRepository.existsByName(any(String.class))).willReturn(true);
+        final var categoryToSave = Category.builder().id(-1L).name("category 1").build();
+        given(categoryRepository.save(any(Category.class))).willReturn(categoryToSave.toBuilder().build());
 
         //when
-        var savedCategory = categoryService.createCategory(categoryToSave);
+        var savedCategory = categoryService.saveCategory(categoryToSave);
 
         //then
         then(savedCategory.getId()).isEqualTo(-1L);
         then(savedCategory.getName()).isEqualTo("category 1");
-    }*/
+    }
+
+    @Test
+    public void shouldThrowError_WhenUpdateCategory_ValidationFail() {
+        //given
+        final var categoryToSave = Category.builder().id(-1L).name("category 1").build();
+        given(categoryRepository.save(any(Category.class))).willReturn(categoryToSave.toBuilder().build());
+        doThrow(new NameIsInUseException("Name in use")).when(categoryValidator).validate(categoryToSave);
+
+        //when, then
+        assertThatThrownBy(() -> {
+            categoryValidator.validate(categoryToSave);
+        }).isInstanceOf(NameIsInUseException.class).hasMessageContaining("Name in use");
+    }
+
+    @Test
+    public void shouldDeleteCategory() {
+        //given
+
+        //when
+        categoryService.deleteCategory(-1L);
+
+        //then
+        verify(categoryRepository, times(1)).deleteById(any(Long.class));
+    }
 }

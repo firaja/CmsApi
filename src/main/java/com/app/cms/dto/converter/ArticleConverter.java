@@ -1,8 +1,7 @@
-package com.app.cms.dto.mapper;
+package com.app.cms.dto.converter;
 
 import com.app.cms.dto.ArticleDto;
 import com.app.cms.entity.Article;
-import com.app.cms.repository.ArticleRepository;
 import com.app.cms.repository.CategoryRepository;
 import com.app.cms.repository.UserRepository;
 import org.modelmapper.ModelMapper;

@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.app</groupId>
-    <artifactId>cms</artifactId>
+    <artifactId>cms-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>CMS api</name>
     <description>Api for CMS</description>

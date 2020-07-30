@@ -1,4 +1,4 @@
-package com.app.cms.dto.mapper;
+package com.app.cms.dto.converter;
 
 import com.app.cms.dto.UserDto;
 import com.app.cms.entity.User;
@@ -22,8 +22,6 @@ public class UserConverter implements ObjectConverter<User, UserDto> {
 
     @Override
     public User toEntity(UserDto userDto) {
-        User user = modelMapper.map(userDto, User.class);
-
-        return user;
+        return modelMapper.map(userDto, User.class);
     }
 }

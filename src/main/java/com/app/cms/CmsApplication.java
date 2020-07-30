@@ -16,5 +16,4 @@ public class CmsApplication {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
 }

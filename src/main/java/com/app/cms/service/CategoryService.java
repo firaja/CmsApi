@@ -22,16 +22,9 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-  /*  public Category updateCategory(Category category) {
-        categoryValidator.validate(category);
-
-        return categoryRepository.save(category);
-    }*/
-
     public void deleteCategory(Long categoryId) {
-        var category = categoryRepository.getOne(categoryId);
-        categoryValidator.validateOnDelete(category);
+        categoryValidator.validateOnDelete(categoryId);
 
-        categoryRepository.delete(category);
+        categoryRepository.deleteById(categoryId);
     }
 }

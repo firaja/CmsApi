@@ -1,14 +1,15 @@
 package com.app.cms.controller;
 
 import com.app.cms.dto.CategoryDto;
-import com.app.cms.dto.mapper.CategoryConverter;
+import com.app.cms.dto.converter.CategoryConverter;
 import com.app.cms.repository.CategoryRepository;
 import com.app.cms.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/categories")
@@ -25,8 +26,13 @@ public class CategoryController {
     }
 
     @GetMapping(value = "/{categoryId}")
-    public CategoryDto getCategoryById(@PathVariable @Min(1) Long categoryId) {
+    public CategoryDto getCategoryById(@PathVariable Long categoryId) {
         return categoryConverter.toDto(categoryRepository.getOne(categoryId));
+    }
+
+    @GetMapping
+    public List<CategoryDto> getAllCategories() {
+        return categoryRepository.findAll().stream().map(categoryConverter::toDto).collect(Collectors.toList());
     }
 
     @PostMapping
@@ -36,13 +42,13 @@ public class CategoryController {
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public CategoryDto updateCategory(@RequestBody @Valid CategoryDto categoryDto) {
         return categoryConverter.toDto(categoryService.saveCategory(categoryConverter.toEntity(categoryDto)));
     }
 
     @DeleteMapping(value = "/{categoryId}")
-    public void deleteCategory(@PathVariable @Min(1) Long categoryId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCategory(@PathVariable Long categoryId) {
         categoryService.deleteCategory(categoryId);
     }
 

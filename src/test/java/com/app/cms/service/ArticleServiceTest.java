@@ -4,15 +4,14 @@ import com.app.cms.entity.Article;
 import com.app.cms.repository.ArticleRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -31,7 +30,7 @@ public class ArticleServiceTest {
         given(articleRepository.save(any(Article.class))).willReturn(articleToSave.toBuilder().id(-1L).build());
 
         //when
-        Article savedArticle =  articleService.createArticle(articleToSave);
+        Article savedArticle = articleService.saveArticle(articleToSave);
 
         //then
         then(savedArticle.getId()).isNotNull();
