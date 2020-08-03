@@ -24,14 +24,18 @@ public class User {
     private Long id;
 
     @NotBlank
-    @Size(min= 3, max = 20)
+    @Size(min = 3, max = 20)
     private String login;
 
     @NotBlank
     private char[] password;
 
+    @Transient
+    private char[] passwordConfirm;
+
     @NotBlank
     @Email
     private String email;
+
 
 }

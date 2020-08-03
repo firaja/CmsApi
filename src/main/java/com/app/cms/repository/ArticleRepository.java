@@ -6,9 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-    //  boolean existsByCategory(Category category);
     boolean existsByCategoryId(Long categoryId);
-
-    //    boolean existsByUser(User user);
     boolean existsByUserId(Long userId);
 }

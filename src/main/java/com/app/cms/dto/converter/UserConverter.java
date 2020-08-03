@@ -16,7 +16,9 @@ public class UserConverter implements ObjectConverter<User, UserDto> {
 
     @Override
     public UserDto toDto(User user) {
-        // nie wysylac hasla
+        user.setPassword(null);
+        user.setPasswordConfirm(null);
+
         return modelMapper.map(user, UserDto.class);
     }
 

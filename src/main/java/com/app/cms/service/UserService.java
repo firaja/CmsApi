@@ -22,7 +22,6 @@ public class UserService {
     public User saveUser(User user) {
         userValidator.validate(user);
 
-
         SecureString password = new SecureString(user.getPassword());
         Hash hash = Password.hash(password).withBCrypt();
 
@@ -30,6 +29,15 @@ public class UserService {
 
         // https://github.com/Password4j/password4j
         // Password.check()
+
+        return user;
+    }
+
+    public User saveUserWithoutPass(User user) {
+        userValidator.validate(user);
+
+        user.setPassword(userRepository.getPassById(user.getId()));
+        userRepository.save(user);
 
         return user;
     }
