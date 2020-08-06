@@ -42,6 +42,9 @@ public class UserService {
         user.setId(userId);
         userValidator.validateOnSave(user);
 
+        if(user.getPassword() != null)
+            user.setPassword(hashPass(user.getPassword()));
+
         userRepository.updatePartially(userId, fields);
     }
 

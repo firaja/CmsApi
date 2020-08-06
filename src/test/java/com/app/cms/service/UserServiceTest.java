@@ -47,7 +47,7 @@ public class UserServiceTest {
                 .password(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'}).build();
 
         //when
-        var savedUser = userService.saveUser(user);
+        userService.saveUser(user);
 
         //then
         verify(userRepository, times(1)).save(any());
