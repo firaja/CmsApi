@@ -63,18 +63,16 @@ public class CategoryServiceTest {
         //given
         final var categoryToSave = Category.builder().id(-1L).name("category 1").build();
         given(categoryRepository.save(any(Category.class))).willReturn(categoryToSave.toBuilder().build());
-        doThrow(new NameIsInUseException("Name in use")).when(categoryValidator).validate(categoryToSave);
+        doThrow(new NameIsInUseException("Name in use")).when(categoryValidator).validateOnSave(categoryToSave);
 
         //when, then
         assertThatThrownBy(() -> {
-            categoryValidator.validate(categoryToSave);
+            categoryValidator.validateOnSave(categoryToSave);
         }).isInstanceOf(NameIsInUseException.class).hasMessageContaining("Name in use");
     }
 
     @Test
     public void shouldDeleteCategory() {
-        //given
-
         //when
         categoryService.deleteCategory(-1L);
 

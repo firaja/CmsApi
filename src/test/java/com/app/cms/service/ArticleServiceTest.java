@@ -37,6 +37,4 @@ public class ArticleServiceTest {
         then(savedArticle.getId()).isEqualTo(-1L);
     }
 
-
-
 }

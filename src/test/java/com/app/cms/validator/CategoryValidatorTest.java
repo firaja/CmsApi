@@ -37,7 +37,7 @@ public class CategoryValidatorTest {
 
         //when, then
         assertThatThrownBy(() -> {
-            categoryValidator.validate(category);
+            categoryValidator.validateOnSave(category);
         }).isInstanceOf(NameIsInUseException.class).hasMessageContaining("Category name is already in use");
     }
 
@@ -49,7 +49,7 @@ public class CategoryValidatorTest {
 
         //when, then
         assertThatThrownBy(() -> {
-            categoryValidator.validate(category);
+            categoryValidator.validateOnSave(category);
         }).isInstanceOf(NameIsInUseException.class).hasMessageContaining("Category name is already in use");
     }
 

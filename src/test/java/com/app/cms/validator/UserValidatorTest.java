@@ -37,7 +37,7 @@ public class UserValidatorTest {
 
         //when, then
         assertThatThrownBy(() -> {
-            userValidator.validate(user);
+            userValidator.validateOnSave(user);
         }).isInstanceOf(LoginIsInUseException.class).hasMessageContaining("User login is already in use");
     }
 
@@ -49,7 +49,7 @@ public class UserValidatorTest {
 
         //when, then
         assertThatThrownBy(() -> {
-            userValidator.validate(user);
+            userValidator.validateOnSave(user);
         }).isInstanceOf(LoginIsInUseException.class).hasMessageContaining("User login is already in use");
     }
 
@@ -89,5 +89,15 @@ public class UserValidatorTest {
 
         //when, then
         userValidator.validateOnDelete(-1L);
+    }
+
+    @Test
+    public void shouldValidatePartiallyUpdatedUser() {
+        //given
+        var user = User.builder().id(-1L).email("email@email.com").build();
+        //  given(userRepository.existsByLogin(any(String.class))).willReturn(false);
+
+        //when then
+        userValidator.validateOnSave(user);
     }
 }

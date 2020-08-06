@@ -8,7 +8,7 @@ import com.app.cms.repository.CategoryRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CategoryValidator implements Validator<Category> {
+public class CategoryValidator implements ValidatorOnSave<Category>, ValidatorOnDelete {
 
     private final CategoryRepository categoryRepository;
     private final ArticleRepository articleRepository;
@@ -19,7 +19,7 @@ public class CategoryValidator implements Validator<Category> {
     }
 
     @Override
-    public void validate(Category category) {
+    public void validateOnSave(Category category) {
         if (category.getId() == null) {
             validationOnCreation(category);
         } else {

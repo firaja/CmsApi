@@ -17,7 +17,7 @@ public class CategoryService {
     }
 
     public Category saveCategory(Category category) {
-        categoryValidator.validate(category);
+        categoryValidator.validateOnSave(category);
 
         return categoryRepository.save(category);
     }

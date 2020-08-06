@@ -13,6 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -39,6 +41,18 @@ public class CommentServiceTest {
         //then
         then(savedComment.getId()).isEqualTo(-1L);
         then(savedComment.getContent()).isEqualTo("content");
+    }
+
+    @Test
+    public void shouldDeleteComment() {
+        //given
+        final var commentId = -1L;
+
+        //when
+        commentService.deleteComment(commentId);
+
+        //then
+        verify(commentRepository, times(1)).deleteById(any());
     }
 
 

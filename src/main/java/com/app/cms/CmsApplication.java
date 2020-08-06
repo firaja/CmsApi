@@ -16,4 +16,9 @@ public class CmsApplication {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
+    @Bean
+    public com.fasterxml.jackson.databind.ObjectMapper jacksonModelMapper() {
+        return new com.fasterxml.jackson.databind.ObjectMapper();
+    }
 }

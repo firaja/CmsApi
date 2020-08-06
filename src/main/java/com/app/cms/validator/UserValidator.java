@@ -8,7 +8,7 @@ import com.app.cms.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserValidator implements Validator<User> {
+public class UserValidator implements ValidatorOnSave<User>, ValidatorOnDelete {
 
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
@@ -19,7 +19,7 @@ public class UserValidator implements Validator<User> {
     }
 
     @Override
-    public void validate(User user) {
+    public void validateOnSave(User user) {
         if (user.getId() == null) {
             validationOnCreation(user);
         } else {
@@ -38,7 +38,7 @@ public class UserValidator implements Validator<User> {
     }
 
     private void validationOnUpdate(User user) {
-        if (userRepository.existsByLoginAndIdNot(user.getLogin(), user.getId())) {
+        if (user.getLogin() != null && userRepository.existsByLoginAndIdNot(user.getLogin(), user.getId())) {
             throwLoginIsInUseException();
         }
     }

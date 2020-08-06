@@ -1,8 +1,10 @@
 package com.app.cms.service;
 
 
+import com.app.cms.dto.converter.UserConverter;
 import com.app.cms.entity.User;
 import com.app.cms.repository.UserRepository;
+import com.app.cms.validator.PasswordValidator;
 import com.app.cms.validator.UserValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +13,11 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -20,7 +26,13 @@ import static org.mockito.Mockito.verify;
 public class UserServiceTest {
 
     @Mock
+    private UserConverter userConverter;
+
+    @Mock
     private UserValidator userValidator;
+
+    @Mock
+    private PasswordValidator passwordValidator;
 
     @Mock
     private UserRepository userRepository;
@@ -32,7 +44,7 @@ public class UserServiceTest {
     public void shouldCreateUser() {
         //given
         var user = User.builder().id(-1L).login("login").email("mail@mail.com")
-                .password(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'}).passwordConfirm(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd', '2'}).build();
+                .password(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'}).build();
 
         //when
         var savedUser = userService.saveUser(user);
@@ -52,6 +64,23 @@ public class UserServiceTest {
 
         //then
         verify(userRepository, times(1)).deleteById(any());
+    }
+
+    @Test
+    public void shouldUpdateUserPartially() {
+        //given
+        var user = User.builder().id(-1L).email("mail@mail.com").build();
+
+        given(userConverter.toEntity(any(Map.class))).willReturn(user);
+        Map<String, Object> userValues = new HashMap<>();
+
+        //when
+        userService.saveUserPartially(-1L, userValues);
+
+        //then
+        verify(userRepository, times(1)).updatePartially(any(Long.class), any(Map.class));
 
     }
+
+
 }
