@@ -1,13 +1,13 @@
 package com.app.cms.dto.converter;
 
 import com.app.cms.dto.UserDto;
+import com.app.cms.entity.Login;
+import com.app.cms.entity.Password;
 import com.app.cms.entity.User;
-import com.app.cms.error.type.PasswordsAreNotSameException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Map;
 
 @Component
@@ -26,15 +26,19 @@ public class UserConverter implements ObjectConverter<User, UserDto> {
     public UserDto toDto(User user) {
         user.setPassword(null);
 
-        return modelMapper.map(user, UserDto.class);
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        userDto.setLogin(user.getLogin().getValue());
+
+        return userDto;
     }
 
     @Override
     public User toEntity(UserDto userDto) {
-        if (!Arrays.equals(userDto.getPassword(), userDto.getPasswordConfirm()))
-            throw new PasswordsAreNotSameException("Passwords are different");
+        User user = modelMapper.map(userDto, User.class);
+        user.setLogin(new Login(userDto.getLogin()));
+        user.setPassword(new Password(userDto.getPassword(), userDto.getPasswordConfirm()));
 
-        return modelMapper.map(userDto, User.class);
+        return user;
     }
 
     public Map<String, Object> toMap(UserDto userDto) {

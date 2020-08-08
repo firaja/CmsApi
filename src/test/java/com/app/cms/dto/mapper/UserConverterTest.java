@@ -2,6 +2,8 @@ package com.app.cms.dto.mapper;
 
 import com.app.cms.dto.UserDto;
 import com.app.cms.dto.converter.UserConverter;
+import com.app.cms.entity.Login;
+import com.app.cms.entity.Password;
 import com.app.cms.entity.User;
 import com.app.cms.error.type.PasswordsAreNotSameException;
 import org.junit.jupiter.api.Test;
@@ -34,27 +36,24 @@ public class UserConverterTest {
     public void shouldConvertDtoToEntity() {
         //given
         UserDto userDto = UserDto.builder().id(-1L).login("login").email("mail@mail.com")
-                .password(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'}).passwordConfirm(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'}).build();
+                .password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'}).passwordConfirm(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'}).build();
 
         //when
         var user = userConverter.toEntity(userDto);
 
         //then
         then(user.getId()).isEqualTo(-1L);
-        then(user.getLogin()).isEqualTo("login");
+        then(user.getLogin().getValue()).isEqualTo("login");
         then(user.getEmail()).isEqualTo("mail@mail.com");
-        then(user.getPassword()).isEqualTo(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'});
+        then(user.getPassword()).isNotNull();
     }
 
     @Test
     public void shouldThrowPasswordAreNotSameException() {
-        //given
-        UserDto userDto = UserDto.builder().id(-1L).login("login").email("mail@mail.com")
-                .password(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'}).passwordConfirm(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd', '2'}).build();
-
-        //when then
+        //given when then
         assertThatThrownBy(() -> {
-            userConverter.toEntity(userDto);
+            userConverter.toEntity(UserDto.builder().id(-1L).login("login").email("mail@mail.com")
+                    .password(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'}).passwordConfirm(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd', '2'}).build());
         })
                 .isInstanceOf(PasswordsAreNotSameException.class);
     }
@@ -62,15 +61,15 @@ public class UserConverterTest {
     @Test
     public void shouldConvertEntityToDto() {
         //given
-        var user = User.builder().id(-1L).login("login").email("mail@mail.com")
-                .password(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'}).build();
+        var user = User.builder().id(-1L).login(new Login("login")).email("mail@mail.com")
+                .password(new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
 
         //when
         var userDto = userConverter.toDto(user);
 
         //then
         then(userDto.getId()).isEqualTo(-1L);
-        then(userDto.getLogin()).isEqualTo("login");
+        then(userDto.getLogin()).isEqualTo(new Login("login").getValue());
         then(userDto.getEmail()).isEqualTo("mail@mail.com");
         then(userDto.getPassword()).isNull();
         then(userDto.getPasswordConfirm()).isNull();

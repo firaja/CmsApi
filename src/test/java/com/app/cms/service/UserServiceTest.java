@@ -2,6 +2,8 @@ package com.app.cms.service;
 
 
 import com.app.cms.dto.converter.UserConverter;
+import com.app.cms.entity.Login;
+import com.app.cms.entity.Password;
 import com.app.cms.entity.User;
 import com.app.cms.repository.UserRepository;
 import com.app.cms.validator.PasswordValidator;
@@ -43,8 +45,8 @@ public class UserServiceTest {
     @Test
     public void shouldCreateUser() {
         //given
-        var user = User.builder().id(-1L).login("login").email("mail@mail.com")
-                .password(new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd'}).build();
+        var user = User.builder().id(-1L).login(new Login("login")).email("mail@mail.com")
+                .password(new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
 
         //when
         userService.saveUser(user);

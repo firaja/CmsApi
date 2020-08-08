@@ -1,15 +1,13 @@
 package com.app.cms.validator;
 
-import com.app.cms.error.type.PasswordNotContainsUpperAndLowercaseException;
-import com.app.cms.error.type.PasswordTooLongException;
-import com.app.cms.error.type.PasswordTooShortException;
 import org.springframework.stereotype.Component;
 
 
 @Component
-public class PasswordValidator implements ValidatorOnSave<char[]> {
+@Deprecated
+public class PasswordValidator {// implements ValidatorOnSave<char[]> {
 
-    @Override
+/*    @Override
     public void validateOnSave(char[] password) {
         if (password.length < 6) {
             throw new PasswordTooShortException("Password must be at least 6 characters");
@@ -32,6 +30,6 @@ public class PasswordValidator implements ValidatorOnSave<char[]> {
         }
 
         return uppercaseCounter > 0 && lowercaseCounter > 0 ? true : false;
-    }
+    }*/
 
 }

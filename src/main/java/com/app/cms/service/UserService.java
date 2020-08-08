@@ -5,9 +5,6 @@ import com.app.cms.entity.User;
 import com.app.cms.repository.UserRepository;
 import com.app.cms.validator.PasswordValidator;
 import com.app.cms.validator.UserValidator;
-import com.password4j.Hash;
-import com.password4j.Password;
-import com.password4j.SecureString;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -29,9 +26,9 @@ public class UserService {
 
     public User saveUser(User user) {
         userValidator.validateOnSave(user);
-        passwordValidator.validateOnSave(user.getPassword());
+    //    passwordValidator.validateOnSave(user.getPassword());
 
-        user.setPassword(hashPass(user.getPassword()));
+        //  user.setPassword(hashPass(user.getPassword()));
         userRepository.save(user);
 
         return user;
@@ -42,18 +39,13 @@ public class UserService {
         user.setId(userId);
         userValidator.validateOnSave(user);
 
-        if(user.getPassword() != null)
-            user.setPassword(hashPass(user.getPassword()));
+        //      if(user.getPassword() != null)
+        //       user.setPassword(hashPass(user.getPassword()));
 
         userRepository.updatePartially(userId, fields);
     }
 
-    private char[] hashPass(char[] password) {
-        SecureString securedPassword = new SecureString(password);
-        Hash hash = Password.hash(securedPassword).withBCrypt();
 
-        return hash.getResult().toCharArray();
-    }
 
     public void deleteUser(Long userId) {
         userValidator.validateOnDelete(userId);

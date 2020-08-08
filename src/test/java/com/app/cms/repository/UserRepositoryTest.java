@@ -1,5 +1,6 @@
 package com.app.cms.repository;
 
+import com.app.cms.entity.Password;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,15 @@ public class UserRepositoryTest {
         //given
         Map<String, Object> userData = new HashMap<>();
         userData.put("email", "newEmail@mail.com");
-        userData.put("password", new char[]{'p', 'a', 's', 's', 'w', 'o', 'r', 'd', '1', '2', '3'});
+        userData.put("password", new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd', '1', '2', '3'}));
 
         //when
         userRepository.updatePartially(-1L, userData);
 
         //then
         then(userRepository.getOne(-1L).getEmail()).isEqualTo("newEmail@mail.com");
-        then(userRepository.getOne(-1L).getPassword()).isEqualTo("password123".toCharArray());
+        then(userRepository.getOne(-1L).getPassword().equals(new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd', '1', '2', '3'}))).isTrue();
     }
+
 
 }

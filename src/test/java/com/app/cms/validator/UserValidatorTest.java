@@ -1,5 +1,6 @@
 package com.app.cms.validator;
 
+import com.app.cms.entity.Login;
 import com.app.cms.entity.User;
 import com.app.cms.error.type.LoginIsInUseException;
 import com.app.cms.error.type.ObjectHaveReferencedObjects;
@@ -32,7 +33,7 @@ public class UserValidatorTest {
     @Test
     public void shouldThrowError_WhenCreateNewUser_UserWithSameLoginExists() {
         //given
-        var user = User.builder().login("login").build();
+        var user = User.builder().login(new Login("login")).build();
         given(userRepository.existsByLogin(any(String.class))).willReturn(true);
 
         //when, then
@@ -44,7 +45,7 @@ public class UserValidatorTest {
     @Test
     public void shouldThrowError_WhenUpdateUser_UserWithSameLoginExists() {
         //given
-        var user = User.builder().id(-1L).login("login").build();
+        var user = User.builder().id(-1L).login(new Login("login")).build();
         given(userRepository.existsByLoginAndIdNot(any(String.class), any(Long.class))).willReturn(true);
 
         //when, then
