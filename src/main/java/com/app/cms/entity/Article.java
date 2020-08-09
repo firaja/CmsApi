@@ -1,12 +1,16 @@
 package com.app.cms.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
+import com.app.cms.entity.values.article.Content;
+import com.app.cms.entity.values.article.CreationDate;
+import com.app.cms.entity.values.article.Rating;
+import com.app.cms.entity.values.article.Title;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
 
 
 @Data
@@ -21,18 +25,16 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
-    @Size(max = 200)
-    private String title;
+    @NotNull
+    private Title title;
 
-    @NotBlank
-    @Size(max = 4000)
-    private String content;
+    private Content content;
 
-    @Past
     @NotNull
     @Column(updatable = false)
-    private Date creationDate;
+    private CreationDate creationDate;
+
+    private Rating rating;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,7 +43,5 @@ public class Article {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
-
-    private Integer rate;
 
 }

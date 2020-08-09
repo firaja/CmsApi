@@ -1,6 +1,7 @@
 package com.app.cms.validator;
 
 import com.app.cms.entity.Category;
+import com.app.cms.entity.values.category.Name;
 import com.app.cms.error.type.NameIsInUseException;
 import com.app.cms.error.type.ObjectHaveReferencedObjects;
 import com.app.cms.repository.ArticleRepository;
@@ -32,7 +33,7 @@ public class CategoryValidatorTest {
     @Test
     public void shouldThrowError_WhenCreateNewCategory_CategoryWithSameNameExists() {
         //given
-        var category = Category.builder().name("name").build();
+        var category = Category.builder().name(new Name("name")).build();
         given(categoryRepository.existsByName(any(String.class))).willReturn(true);
 
         //when, then
@@ -44,7 +45,7 @@ public class CategoryValidatorTest {
     @Test
     public void shouldThrowError_WhenUpdateCategory_CategoryWithSameNameExists() {
         //given
-        var category = Category.builder().id(-1L).name("name").build();
+        var category = Category.builder().id(-1L).name(new Name("name")).build();
         given(categoryRepository.existsByNameAndIdNot(any(String.class), any(Long.class))).willReturn(true);
 
         //when, then

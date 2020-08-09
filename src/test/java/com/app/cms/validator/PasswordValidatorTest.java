@@ -1,6 +1,6 @@
 package com.app.cms.validator;
 
-import com.app.cms.entity.Password;
+import com.app.cms.entity.values.user.Password;
 import com.app.cms.error.type.PasswordNotContainsUpperAndLowercaseException;
 import com.app.cms.error.type.PasswordTooLongException;
 import com.app.cms.error.type.PasswordTooShortException;

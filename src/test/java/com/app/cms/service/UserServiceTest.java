@@ -2,9 +2,10 @@ package com.app.cms.service;
 
 
 import com.app.cms.dto.converter.UserConverter;
-import com.app.cms.entity.Login;
-import com.app.cms.entity.Password;
 import com.app.cms.entity.User;
+import com.app.cms.entity.values.user.Email;
+import com.app.cms.entity.values.user.Login;
+import com.app.cms.entity.values.user.Password;
 import com.app.cms.repository.UserRepository;
 import com.app.cms.validator.PasswordValidator;
 import com.app.cms.validator.UserValidator;
@@ -45,7 +46,7 @@ public class UserServiceTest {
     @Test
     public void shouldCreateUser() {
         //given
-        var user = User.builder().id(-1L).login(new Login("login")).email("mail@mail.com")
+        var user = User.builder().id(-1L).login(new Login("login")).email(new Email("mail@mail.com"))
                 .password(new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
 
         //when
@@ -71,7 +72,7 @@ public class UserServiceTest {
     @Test
     public void shouldUpdateUserPartially() {
         //given
-        var user = User.builder().id(-1L).email("mail@mail.com").build();
+        var user = User.builder().id(-1L).email(new Email("mail@mail.com")).build();
 
         given(userConverter.toEntity(any(Map.class))).willReturn(user);
         Map<String, Object> userValues = new HashMap<>();

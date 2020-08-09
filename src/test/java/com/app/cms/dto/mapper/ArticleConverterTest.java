@@ -5,6 +5,10 @@ import com.app.cms.dto.converter.ArticleConverter;
 import com.app.cms.entity.Article;
 import com.app.cms.entity.Category;
 import com.app.cms.entity.User;
+import com.app.cms.entity.values.article.Content;
+import com.app.cms.entity.values.article.CreationDate;
+import com.app.cms.entity.values.article.Rating;
+import com.app.cms.entity.values.article.Title;
 import com.app.cms.repository.CategoryRepository;
 import com.app.cms.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -69,7 +73,7 @@ public class ArticleConverterTest {
         then(article.getTitle()).isEqualTo(title);
         then(article.getContent()).isEqualTo(content);
         then(article.getCreationDate()).isEqualTo(creationDate);
-        then(article.getRate()).isEqualTo(rate);
+        then(article.getRating()).isEqualTo(rate);
         then(article.getUser()).isNotNull();
         then(article.getUser().getId()).isNotNull();
         then(article.getCategory()).isNotNull();
@@ -84,16 +88,16 @@ public class ArticleConverterTest {
         long articleId = -1L;
         long userId = -5L;
         long categoryId = -10L;
-        int rate = 33;
+        int rating = 33;
 
         var article = Article.builder()
                 .id(articleId)
-                .title(title)
-                .content(content)
-                .rate(rate)
+                .title(new Title(title))
+                .content(new Content(content))
+                .rating(new Rating(rating))
                 .user(User.builder().id(userId).build())
                 .category(Category.builder().id(categoryId).build())
-                .creationDate(new Date())
+                .creationDate(new CreationDate(new Date()))
                 .build();
 
         //when
@@ -105,7 +109,7 @@ public class ArticleConverterTest {
         then(articleDto.getContent()).isEqualTo(content);
         then(articleDto.getCategoryId()).isEqualTo(categoryId);
         then(articleDto.getUserId()).isEqualTo(userId);
-        then(articleDto.getRate()).isEqualTo(rate);
+        then(articleDto.getRate()).isEqualTo(rating);
         then(articleDto.getCreationDate()).isNotNull();
     }
 }

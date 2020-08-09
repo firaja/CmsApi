@@ -1,5 +1,8 @@
 package com.app.cms.entity;
 
+import com.app.cms.entity.values.comment.Author;
+import com.app.cms.entity.values.comment.Content;
+import com.app.cms.entity.values.comment.CreationDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +12,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import java.util.Date;
 
 @Data
 @Builder(toBuilder = true)
@@ -24,16 +26,17 @@ public class Comment {
     private Long id;
 
     @NotBlank
-    private String content;
+    private Content content;
 
-    private String author;
+    private Author author;
+
+    @Past
+    @NotNull
+    @Column(updatable = false)
+    private CreationDate creationDate;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Article article;
 
-    @Past
-    @NotNull
-    @Column(updatable = false)
-    private Date creationDate;
 }

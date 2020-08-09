@@ -23,6 +23,9 @@ public class UserRepositoryConcreteMethodsImpl implements UserRepositoryConcrete
         CriteriaUpdate<User> criteria = builder.createCriteriaUpdate(User.class);
         Root<User> root = criteria.from(User.class);
         fields.keySet().stream().forEach(key -> criteria.set(key, fields.get(key)));
+        //  criteria.set(User.builder().build());
+        //   criteria.from(User.builder().build());
+        //    criteria.
         criteria.where(builder.equal(root.get("id"), userId));
 
         entityManager.createQuery(criteria).executeUpdate();

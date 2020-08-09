@@ -1,4 +1,4 @@
-package com.app.cms.entity;
+package com.app.cms.entity.values.user;
 
 import com.app.cms.error.type.InvalidLoginException;
 import lombok.EqualsAndHashCode;

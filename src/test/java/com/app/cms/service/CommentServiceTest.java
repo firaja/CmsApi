@@ -1,6 +1,7 @@
 package com.app.cms.service;
 
 import com.app.cms.entity.Comment;
+import com.app.cms.entity.values.comment.Content;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.repository.CommentRepository;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ public class CommentServiceTest {
     @Test
     public void shouldCreateComment() {
         //given
-        final var commentToSave = Comment.builder().content("content").build();
+        final var commentToSave = Comment.builder().content(new Content("content")).build();
         given(commentRepository.save(any(Comment.class))).willReturn(commentToSave.toBuilder().id(-1L).build());
 
         //when

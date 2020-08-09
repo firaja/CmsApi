@@ -1,7 +1,9 @@
-package com.app.cms.entity;
+package com.app.cms.entity.values.user;
 
+import com.app.cms.error.type.InvalidEmailException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.Column;
@@ -20,6 +22,9 @@ public class Email {
     }
 
     public Email(String value) {
+        if (!EmailValidator.getInstance().isValid(value))
+            throw new InvalidEmailException("Email is not valid");
+
         this.value = value;
     }
 

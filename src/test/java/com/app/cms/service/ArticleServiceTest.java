@@ -1,6 +1,8 @@
 package com.app.cms.service;
 
 import com.app.cms.entity.Article;
+import com.app.cms.entity.values.article.Content;
+import com.app.cms.entity.values.article.Title;
 import com.app.cms.repository.ArticleRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +28,7 @@ public class ArticleServiceTest {
     @Test
     public void shouldCreateArticle() {
         //given
-        final var articleToSave = Article.builder().title("test title").content("test content").build();
+        final var articleToSave = Article.builder().title(new Title("test title")).content(new Content("test content")).build();
         given(articleRepository.save(any(Article.class))).willReturn(articleToSave.toBuilder().id(-1L).build());
 
         //when

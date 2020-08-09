@@ -1,6 +1,6 @@
 package com.app.cms.repository;
 
-import com.app.cms.entity.Password;
+import com.app.cms.entity.values.user.Password;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -38,13 +38,13 @@ public class CategoryValidator implements ValidatorOnSave<Category>, ValidatorOn
     }
 
     private void validationOnUpdate(Category category) {
-        if (categoryRepository.existsByNameAndIdNot(category.getName(), category.getId())) {
+        if (categoryRepository.existsByNameAndIdNot(category.getName().getValue(), category.getId())) {
             throwNameIsInUseException();
         }
     }
 
     private void validationOnCreation(Category category) {
-        if (categoryRepository.existsByName(category.getName())) {
+        if (categoryRepository.existsByName(category.getName().getValue())) {
             throwNameIsInUseException();
         }
     }

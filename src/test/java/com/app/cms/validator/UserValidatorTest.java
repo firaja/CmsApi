@@ -1,7 +1,8 @@
 package com.app.cms.validator;
 
-import com.app.cms.entity.Login;
 import com.app.cms.entity.User;
+import com.app.cms.entity.values.user.Email;
+import com.app.cms.entity.values.user.Login;
 import com.app.cms.error.type.LoginIsInUseException;
 import com.app.cms.error.type.ObjectHaveReferencedObjects;
 import com.app.cms.repository.ArticleRepository;
@@ -95,7 +96,7 @@ public class UserValidatorTest {
     @Test
     public void shouldValidatePartiallyUpdatedUser() {
         //given
-        var user = User.builder().id(-1L).email("email@email.com").build();
+        var user = User.builder().id(-1L).email(new Email("email@email.com")).build();
         //  given(userRepository.existsByLogin(any(String.class))).willReturn(false);
 
         //when then

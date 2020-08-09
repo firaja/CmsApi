@@ -2,9 +2,10 @@ package com.app.cms.dto.mapper;
 
 import com.app.cms.dto.UserDto;
 import com.app.cms.dto.converter.UserConverter;
-import com.app.cms.entity.Login;
-import com.app.cms.entity.Password;
 import com.app.cms.entity.User;
+import com.app.cms.entity.values.user.Email;
+import com.app.cms.entity.values.user.Login;
+import com.app.cms.entity.values.user.Password;
 import com.app.cms.error.type.PasswordsAreNotSameException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,7 +62,7 @@ public class UserConverterTest {
     @Test
     public void shouldConvertEntityToDto() {
         //given
-        var user = User.builder().id(-1L).login(new Login("login")).email("mail@mail.com")
+        var user = User.builder().id(-1L).login(new Login("login")).email(new Email("mail@mail.com"))
                 .password(new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
 
         //when
