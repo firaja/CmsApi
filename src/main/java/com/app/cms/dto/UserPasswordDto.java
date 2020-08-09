@@ -17,10 +17,8 @@ import javax.validation.constraints.NotBlank;
 public class UserPasswordDto {
     private Long userId;
 
-    @NotBlank
     private char[] password;
 
-    @NotBlank
     private char[] passwordConfirm;
 }
 

@@ -7,7 +7,6 @@ import com.app.cms.entity.values.user.Email;
 import com.app.cms.entity.values.user.Login;
 import com.app.cms.entity.values.user.Password;
 import com.app.cms.repository.UserRepository;
-import com.app.cms.validator.PasswordValidator;
 import com.app.cms.validator.UserValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,9 +32,6 @@ public class UserServiceTest {
 
     @Mock
     private UserValidator userValidator;
-
-    @Mock
-    private PasswordValidator passwordValidator;
 
     @Mock
     private UserRepository userRepository;
@@ -81,7 +77,7 @@ public class UserServiceTest {
         userService.saveUserPartially(-1L, userValues);
 
         //then
-        verify(userRepository, times(1)).updatePartially(any(Long.class), any(Map.class));
+        verify(userRepository, times(1)).updatePartially(any(Long.class), any(User.class));
 
     }
 

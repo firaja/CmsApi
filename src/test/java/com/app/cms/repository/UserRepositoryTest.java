@@ -1,5 +1,9 @@
 package com.app.cms.repository;
 
+import com.app.cms.dto.converter.UserConverter;
+import com.app.cms.entity.User;
+import com.app.cms.entity.values.user.Email;
+import com.app.cms.entity.values.user.Login;
 import com.app.cms.entity.values.user.Password;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,32 +23,30 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
+
     @Test
     public void shouldUpdateUserEmail() {
         //given
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("email", "newEmail@mail.com");
+        var user = User.builder().email(new Email("newEmail@mail.com")).build();
 
         //when
-        userRepository.updatePartially(-1L, userData);
+        userRepository.updatePartially(-1L, user);
 
         //then
-        then(userRepository.getOne(-1L).getEmail()).isEqualTo("newEmail@mail.com");
+        then(userRepository.getOne(-1L).getEmail().getValue()).isEqualTo("newEmail@mail.com");
     }
 
     @Test
     public void shouldUpdateUserEmailAndPassword() {
         //given
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("email", "newEmail@mail.com");
-        userData.put("password", new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd', '1', '2', '3'}));
+        var user = User.builder().email(new Email("newEmail@mail.com")).password(new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd', '1', '2', '3'})).build();
 
         //when
-        userRepository.updatePartially(-1L, userData);
+        userRepository.updatePartially(-1L, user);
 
         //then
-        then(userRepository.getOne(-1L).getEmail()).isEqualTo("newEmail@mail.com");
-        then(userRepository.getOne(-1L).getPassword().equals(new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd', '1', '2', '3'}))).isTrue();
+        then(userRepository.getOne(-1L).getEmail().getValue()).isEqualTo("newEmail@mail.com");
+        then(userRepository.getOne(-1L).getPassword().getValue()).isNotEmpty();
     }
 
 

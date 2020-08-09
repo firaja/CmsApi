@@ -25,7 +25,7 @@ public class CommentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentDto createComment(@RequestBody @Valid CommentDto commentDto) {
+    public CommentDto createComment(@RequestBody CommentDto commentDto) {
         return commentConverter.toDto(commentService.saveComment(commentConverter.toEntity(commentDto)));
     }
 
@@ -40,7 +40,7 @@ public class CommentController {
     }
 
     @PutMapping
-    public CommentDto updateComment(@RequestBody @Valid CommentDto commentDto) {
+    public CommentDto updateComment(@RequestBody CommentDto commentDto) {
         return commentConverter.toDto(commentService.saveComment(commentConverter.toEntity(commentDto)));
     }
 

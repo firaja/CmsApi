@@ -27,7 +27,7 @@ public class ArticleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ArticleDto createArticle(@RequestBody @Valid ArticleDto article) {
+    public ArticleDto createArticle(@RequestBody ArticleDto article) {
         return articleConverter.toDto(articleService.saveArticle(articleConverter.toEntity(article)));
     }
 
@@ -47,7 +47,7 @@ public class ArticleController {
     }
 
     @PutMapping
-    public ArticleDto updateArticle(@RequestBody @Valid ArticleDto articleDto) {
+    public ArticleDto updateArticle(@RequestBody ArticleDto articleDto) {
         return articleConverter.toDto(articleService.saveArticle(articleConverter.toEntity(articleDto)));
     }
 

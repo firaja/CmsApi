@@ -3,7 +3,7 @@ package com.app.cms.service;
 import com.app.cms.dto.converter.UserConverter;
 import com.app.cms.entity.User;
 import com.app.cms.repository.UserRepository;
-import com.app.cms.validator.PasswordValidator;
+
 import com.app.cms.validator.UserValidator;
 import org.springframework.stereotype.Service;
 
@@ -14,21 +14,16 @@ public class UserService {
 
     private final UserValidator userValidator;
     private final UserRepository userRepository;
-    private final PasswordValidator passwordValidator;
     private final UserConverter userConverter;
 
-    public UserService(UserValidator userValidator, UserRepository userRepository, PasswordValidator passwordValidator, UserConverter userConverter) {
+    public UserService(UserValidator userValidator, UserRepository userRepository, UserConverter userConverter) {
         this.userValidator = userValidator;
         this.userRepository = userRepository;
-        this.passwordValidator = passwordValidator;
         this.userConverter = userConverter;
     }
 
     public User saveUser(User user) {
         userValidator.validateOnSave(user);
-    //    passwordValidator.validateOnSave(user.getPassword());
-
-        //  user.setPassword(hashPass(user.getPassword()));
         userRepository.save(user);
 
         return user;
@@ -39,17 +34,11 @@ public class UserService {
         user.setId(userId);
         userValidator.validateOnSave(user);
 
-        //      if(user.getPassword() != null)
-        //       user.setPassword(hashPass(user.getPassword()));
-
-        userRepository.updatePartially(userId, fields);
+        userRepository.updatePartially(userId, user);
     }
-
-
 
     public void deleteUser(Long userId) {
         userValidator.validateOnDelete(userId);
         userRepository.deleteById(userId);
     }
-
 }

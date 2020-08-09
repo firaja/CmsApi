@@ -22,23 +22,15 @@ public class ArticleDto {
 
     private Long id;
 
-    @NotBlank
-    @Size(max = 200)
     private String title;
 
-    @NotBlank
-    @Size(max = 4000)
     private String content;
 
-    @NotNull
-    @Past
     private Date creationDate;
 
-    @NotNull
     private Long userId;
 
-    @NotNull
     private Long categoryId;
 
-    private Integer rate;
+    private Integer rating;
 }

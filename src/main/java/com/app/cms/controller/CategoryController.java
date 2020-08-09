@@ -37,12 +37,12 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryDto createCategory(@RequestBody @Valid CategoryDto categoryDto) {
+    public CategoryDto createCategory(@RequestBody CategoryDto categoryDto) {
         return categoryConverter.toDto(categoryService.saveCategory(categoryConverter.toEntity(categoryDto)));
     }
 
     @PutMapping
-    public CategoryDto updateCategory(@RequestBody @Valid CategoryDto categoryDto) {
+    public CategoryDto updateCategory(@RequestBody CategoryDto categoryDto) {
         return categoryConverter.toDto(categoryService.saveCategory(categoryConverter.toEntity(categoryDto)));
     }
 

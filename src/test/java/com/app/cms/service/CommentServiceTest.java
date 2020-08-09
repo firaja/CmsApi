@@ -41,7 +41,7 @@ public class CommentServiceTest {
 
         //then
         then(savedComment.getId()).isEqualTo(-1L);
-        then(savedComment.getContent()).isEqualTo("content");
+        then(savedComment.getContent().getValue()).isEqualTo("content");
     }
 
     @Test

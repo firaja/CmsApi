@@ -18,17 +18,13 @@ public class UserRepositoryConcreteMethodsImpl implements UserRepositoryConcrete
     EntityManager entityManager;
 
     @Override
-    public void updatePartially(long userId, Map<String, Object> fields) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaUpdate<User> criteria = builder.createCriteriaUpdate(User.class);
-        Root<User> root = criteria.from(User.class);
-        fields.keySet().stream().forEach(key -> criteria.set(key, fields.get(key)));
-        //  criteria.set(User.builder().build());
-        //   criteria.from(User.builder().build());
-        //    criteria.
-        criteria.where(builder.equal(root.get("id"), userId));
+    public void updatePartially(long userId, User user) {
+        var customCriteriaBuilder = new CustomCriteriaBuilder(User.class, entityManager);
 
-        entityManager.createQuery(criteria).executeUpdate();
+        customCriteriaBuilder.setIfNotNull("login", user.getLogin());
+        customCriteriaBuilder.setIfNotNull("email", user.getEmail());
+        customCriteriaBuilder.setIfNotNull("password", user.getPassword());
+
+        customCriteriaBuilder.execute();
     }
-
 }

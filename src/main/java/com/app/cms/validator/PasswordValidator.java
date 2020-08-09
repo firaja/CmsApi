@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Deprecated
-public class PasswordValidator {// implements ValidatorOnSave<char[]> {
+ class PasswordValidatorOld {// implements ValidatorOnSave<char[]> {
 
 /*    @Override
     public void validateOnSave(char[] password) {

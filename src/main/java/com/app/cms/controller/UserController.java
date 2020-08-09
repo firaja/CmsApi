@@ -33,22 +33,6 @@ public class UserController {
     public UserDto updateUser(@RequestBody @Valid UserDto userDto) {
         return userConverter.toDto(userService.saveUser(userConverter.toEntity(userDto)));
     }
-/*
-    @PatchMapping(value = "/{userId}")
-    public void updateUserPassword(@PathVariable Long userId, @RequestBody Map<String, Object> fields) {
-       //  userConverter.toDto(userService.saveUser(userConverter.toEntity(userDto)));
-    }*/
-
-    @PatchMapping
-    public void updateUserPassword(@RequestBody @Valid UserDto userDto) {
-        //    userService.saveUserPartially(userId, fields);
-        //  return userConverter.toDto(userService.saveUser(userConverter.toEntity(userDto)));
-    }
-
-/*  @PatchMapping
-    public void updateUserPassword(@PathVariable Long userId, @RequestBody Map<String, Object> fields) {
-         userService.saveUserPartially(userId, fields);
-    }*/
 
     @PatchMapping(value = "/{userId}")
     public void updateUserPassword(@PathVariable Long userId, @Valid UserDto userDto) {

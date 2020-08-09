@@ -1,7 +1,8 @@
 package com.app.cms.repository;
 
-import java.util.Map;
+import com.app.cms.entity.User;
+
 
 public interface UserRepositoryConcreteMethods {
-    void updatePartially(long userId, Map<String, Object> fields);
+    void updatePartially(long userId, User user);
 }

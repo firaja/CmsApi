@@ -18,12 +18,8 @@ public class UserDto {
 
     private Long id;
 
-    @NotBlank
-    @Size(min = 3, max = 20)
     private String login;
 
-    @NotBlank
-    @Email
     private String email;
 
     private char[] password;

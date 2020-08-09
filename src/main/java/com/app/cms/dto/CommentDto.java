@@ -17,12 +17,10 @@ import java.util.Date;
 public class CommentDto {
     private Long id;
 
-    @NotBlank
     private String content;
 
     private String author;
 
-    @NotNull
     private Long articleId;
 
     private Date creationDate;

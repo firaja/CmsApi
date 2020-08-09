@@ -58,7 +58,7 @@ public class ArticleConverterTest {
                 .categoryId(categoryId)
                 .userId(userId)
                 .creationDate(creationDate)
-                .rate(rate)
+                .rating(rate)
                 .build();
 
         given(categoryRepository.getOne(categoryId)).willReturn(Category.builder().id(categoryId).build());
@@ -70,10 +70,10 @@ public class ArticleConverterTest {
         //then
         then(article).isNotNull();
         then(article.getId()).isNotNull();
-        then(article.getTitle()).isEqualTo(title);
-        then(article.getContent()).isEqualTo(content);
-        then(article.getCreationDate()).isEqualTo(creationDate);
-        then(article.getRating()).isEqualTo(rate);
+        then(article.getTitle().getValue()).isEqualTo(title);
+        then(article.getContent().getValue()).isEqualTo(content);
+        then(article.getCreationDate().getValue()).isEqualTo(creationDate);
+        then(article.getRating().getValue()).isEqualTo(rate);
         then(article.getUser()).isNotNull();
         then(article.getUser().getId()).isNotNull();
         then(article.getCategory()).isNotNull();
@@ -109,7 +109,7 @@ public class ArticleConverterTest {
         then(articleDto.getContent()).isEqualTo(content);
         then(articleDto.getCategoryId()).isEqualTo(categoryId);
         then(articleDto.getUserId()).isEqualTo(userId);
-        then(articleDto.getRate()).isEqualTo(rating);
+        then(articleDto.getRating()).isEqualTo(rating);
         then(articleDto.getCreationDate()).isNotNull();
     }
 }

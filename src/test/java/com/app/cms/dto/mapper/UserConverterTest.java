@@ -45,7 +45,7 @@ public class UserConverterTest {
         //then
         then(user.getId()).isEqualTo(-1L);
         then(user.getLogin().getValue()).isEqualTo("login");
-        then(user.getEmail()).isEqualTo("mail@mail.com");
+        then(user.getEmail().getValue()).isEqualTo("mail@mail.com");
         then(user.getPassword()).isNotNull();
     }
 
@@ -71,7 +71,7 @@ public class UserConverterTest {
         //then
         then(userDto.getId()).isEqualTo(-1L);
         then(userDto.getLogin()).isEqualTo(new Login("login").getValue());
-        then(userDto.getEmail()).isEqualTo("mail@mail.com");
+        then(userDto.getEmail()).isEqualTo(new Email("mail@mail.com").getValue());
         then(userDto.getPassword()).isNull();
         then(userDto.getPasswordConfirm()).isNull();
     }

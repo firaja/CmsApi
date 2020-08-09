@@ -2,6 +2,7 @@ package com.app.cms.dto.converter;
 
 import com.app.cms.dto.CategoryDto;
 import com.app.cms.entity.Category;
+import com.app.cms.entity.values.category.Name;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +17,17 @@ public class CategoryConverter implements ObjectConverter<Category, CategoryDto>
 
     @Override
     public CategoryDto toDto(Category category) {
-        return modelMapper.map(category, CategoryDto.class);
+        var categoryDto = modelMapper.map(category, CategoryDto.class);
+        categoryDto.setName(category.getName().getValue());
+
+        return categoryDto;
     }
 
     @Override
     public Category toEntity(CategoryDto categoryDto) {
-        return modelMapper.map(categoryDto, Category.class);
+        var category = modelMapper.map(categoryDto, Category.class);
+        category.setName(new Name(categoryDto.getName()));
+
+        return category;
     }
 }

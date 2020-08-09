@@ -2,6 +2,7 @@ package com.app.cms.dto.converter;
 
 import com.app.cms.dto.UserDto;
 import com.app.cms.entity.User;
+import com.app.cms.entity.values.user.Email;
 import com.app.cms.entity.values.user.Login;
 import com.app.cms.entity.values.user.Password;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +29,7 @@ public class UserConverter implements ObjectConverter<User, UserDto> {
 
         UserDto userDto = modelMapper.map(user, UserDto.class);
         userDto.setLogin(user.getLogin().getValue());
+        userDto.setEmail(user.getEmail().getValue());
 
         return userDto;
     }
@@ -37,6 +39,7 @@ public class UserConverter implements ObjectConverter<User, UserDto> {
         User user = modelMapper.map(userDto, User.class);
         user.setLogin(new Login(userDto.getLogin()));
         user.setPassword(new Password(userDto.getPassword(), userDto.getPasswordConfirm()));
+        user.setEmail(new Email(userDto.getEmail()));
 
         return user;
     }

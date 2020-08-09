@@ -34,7 +34,7 @@ public class CategoryConverterTest {
 
         //then
         assertThat(categoryDto.getId()).isEqualTo(-1L);
-        assertThat(categoryDto.getName()).isEqualTo("category");
+        assertThat(categoryDto.getName()).isEqualTo(new Name("category").getValue());
     }
 
     @Test
@@ -47,6 +47,6 @@ public class CategoryConverterTest {
 
         //then
         assertThat(category.getId()).isEqualTo(-1L);
-        assertThat(category.getName()).isEqualTo("category");
+        assertThat(category.getName().getValue()).isEqualTo("category");
     }
 }

@@ -48,11 +48,11 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
+ <!--       <dependency>
             <groupId>com.oath.cyclops</groupId>
             <artifactId>cyclops</artifactId>
             <version>10.4.0</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>

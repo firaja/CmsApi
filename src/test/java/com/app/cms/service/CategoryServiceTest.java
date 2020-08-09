@@ -42,7 +42,7 @@ public class CategoryServiceTest {
 
         //then
         then(savedCategory.getId()).isEqualTo(-1L);
-        then(savedCategory.getName()).isEqualTo("category 1");
+        then(savedCategory.getName().getValue()).isEqualTo("category 1");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class CategoryServiceTest {
 
         //then
         then(savedCategory.getId()).isEqualTo(-1L);
-        then(savedCategory.getName()).isEqualTo("category 1");
+        then(savedCategory.getName().getValue()).isEqualTo("category 1");
     }
 
     @Test
