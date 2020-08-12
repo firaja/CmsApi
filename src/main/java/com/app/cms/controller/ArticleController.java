@@ -42,13 +42,17 @@ public class ArticleController {
     }
 
     @DeleteMapping(value = "/{articleId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteArticle(@PathVariable Long articleId) {
         articleService.deleteArticle(articleId);
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public ArticleDto updateArticle(@RequestBody ArticleDto articleDto) {
         return articleConverter.toDto(articleService.saveArticle(articleConverter.toEntity(articleDto)));
     }
+
+    // dodac options 200 + body
 
 }
