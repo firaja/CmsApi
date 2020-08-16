@@ -9,7 +9,11 @@ import com.app.cms.entity.values.article.Title;
 import com.app.cms.repository.CategoryRepository;
 import com.app.cms.repository.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @Component
@@ -31,9 +35,17 @@ public class ArticleConverter implements ObjectConverter<Article, ArticleDto> {
         articleDto.setUserId(article.getUser().getId());
         articleDto.setCategoryId(article.getCategory().getId());
         articleDto.setId(article.getId());
+
+        if(article.getCreationDate() != null)
         articleDto.setCreationDate(article.getCreationDate().getValue());
+
+        if(article.getContent() != null)
         articleDto.setContent(article.getContent().getValue());
+
+        if(article.getRating() != null)
         articleDto.setRating(article.getRating().getValue());
+
+        if(article.getTitle() != null)
         articleDto.setTitle(article.getTitle().getValue());
 
         return articleDto;
@@ -53,6 +65,8 @@ public class ArticleConverter implements ObjectConverter<Article, ArticleDto> {
 
         return article;
     }
+
+
 
 
 }
