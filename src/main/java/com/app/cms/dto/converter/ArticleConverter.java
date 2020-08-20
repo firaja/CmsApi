@@ -3,7 +3,6 @@ package com.app.cms.dto.converter;
 import com.app.cms.controller.ArticleController;
 import com.app.cms.dto.ArticleDto;
 import com.app.cms.entity.Article;
-import com.app.cms.entity.User;
 import com.app.cms.entity.values.article.Content;
 import com.app.cms.entity.values.article.Rating;
 import com.app.cms.entity.values.article.Title;
@@ -75,7 +74,7 @@ public class ArticleConverter implements ObjectConverter<Article, ArticleDto> {
         return article;
     }
 
-    public User toEntity(Map<String, Object> objectAsMap) {
-        return jacksonModelMapper.convertValue(objectAsMap, User.class);
+    public Article toEntity(Map<String, Object> objectAsMap) {
+        return jacksonModelMapper.convertValue(objectAsMap, Article.class);
     }
 }

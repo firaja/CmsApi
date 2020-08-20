@@ -61,9 +61,8 @@ public class ArticleController {
     }
 
     @PatchMapping(value = "/{articleId}", consumes = "application/json-patch+json")
-    public ArticleDto updateArticle(@PathVariable Long articleId) {
-        return articleRepository.findById(articleId).map(articleConverter::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("Article not found"));
+    public void updateArticle(@PathVariable Long articleId, ArticleDto articleDto) {
+        articleService.updateArticlePartially(articleId, articleConverter.toEntity(articleDto));
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)

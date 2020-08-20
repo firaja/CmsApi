@@ -6,7 +6,6 @@ import com.app.cms.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Map;
 
 @Service
 public class ArticleService {
@@ -34,14 +33,11 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
-    public void updateArticlePartially(Long articleId, Map<String, Object> fields) {
-        var article = articleConverter.toEntity(fields);
-        article.setId(articleId);
-        //   articleConverter.validateOnSave(user);
+    public void updateArticlePartially(Long articleId, Article articleWithChanges) {
+        Article articleFromDb = articleRepository.getOne(articleId);
 
-        articleConverter.toEntity(fields);
 
-        //      articleRepository.updatePartially(articleId, article);
+        articleRepository.save(articleFromDb);
     }
 
     public void deleteArticle(Long articleId) {

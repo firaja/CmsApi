@@ -11,9 +11,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -44,15 +41,15 @@ public class ArticleServiceTest {
 
     public void shouldUpdatePartially() {
         //given
-        //   final var articleToSave = Article.builder().title(new Title("test title")).content(new Content("test content")).build();
+           final var articleToSave = Article.builder().title(new Title("test title")).content(new Content("test content")).build();
         //     given(articleRepository.save(any(Article.class))).willReturn(articleToSave.toBuilder().id(-1L).build());
 
-        Map<String, Object> valuesToUpdate = new HashMap<>();
+/*        Map<String, Object> valuesToUpdate = new HashMap<>();
         valuesToUpdate.put("title", "edited title");
-        valuesToUpdate.put("content", "edited content");
+        valuesToUpdate.put("content", "edited content");*/
 
         //when
-        articleService.updateArticlePartially(-1L, valuesToUpdate);
+        articleService.updateArticlePartially(-1L, articleToSave);
 
         //then
         //  then(savedArticle.getId()).isNotNull();
