@@ -6,10 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
-import java.util.Map;
+
 
 @Repository
 public class UserRepositoryConcreteMethodsImpl implements UserRepositoryConcreteMethods {

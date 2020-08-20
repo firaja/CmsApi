@@ -5,17 +5,16 @@ import com.app.cms.dto.converter.ArticleConverter;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.service.ArticleService;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/articles")
@@ -38,22 +37,15 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/{articleId}")
-    public EntityModel<ArticleDto> getArticleById(@PathVariable Long articleId) {
-   //     return new ResponseEntity<>(articleConverter.toDto(articleRepository.getOne(articleId)),HttpStatus.OK );
-
-        return toEntityModel(articleConverter.toDto(articleRepository.getOne(articleId)));
+    public ArticleDto getArticleById(@PathVariable Long articleId) {
+        return articleRepository.findById(articleId).map(articleConverter::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Article not found"));
     }
 
     @GetMapping
-    public List<EntityModel<ArticleDto>> getAllArticles() {
-
-     /*   linkTo(methodOn(ArticleController.class).one(employee.getId())).withSelfRel(),
-                linkTo(methodOn(ArticleController.class).all()).withRel("employees"))).collect(Collectors.toList());
-
-        return CollectionModel.of(employees, linkTo(methodOn(ArticleController.class).all()).wit
-                hSelfRel());*/
-    return null;
-     //   return articleRepository.findAll().stream().map(articleConverter::toDto).collect(Collectors.toList());
+    public CollectionModel<ArticleDto> getAllArticles() {
+        Link link = linkTo(ArticleController.class).withSelfRel();
+        return CollectionModel.of(articleRepository.findAll().stream().map(articleConverter::toDto).collect(Collectors.toList()), link);
     }
 
     @DeleteMapping(value = "/{articleId}")
@@ -65,17 +57,23 @@ public class ArticleController {
     @PutMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ArticleDto updateArticle(@RequestBody ArticleDto articleDto) {
-        return articleConverter.toDto(articleService.saveArticle(articleConverter.toEntity(articleDto)));
+        return articleConverter.toDto(articleService.updateArticle(articleConverter.toEntity(articleDto)));
     }
 
-    // dodac options 200 + body
+    @PatchMapping(value = "/{articleId}", consumes = "application/json-patch+json")
+    public ArticleDto updateArticle(@PathVariable Long articleId) {
+        return articleRepository.findById(articleId).map(articleConverter::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Article not found"));
+    }
 
-    public EntityModel toEntityModel(ArticleDto articleDto) {
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity collectionOptions() {
+        return ResponseEntity.ok().allow(HttpMethod.GET, HttpMethod.OPTIONS).build();
+    }
 
-
-        return EntityModel.of(articleDto,
-                linkTo(methodOn(ArticleController.class).getArticleById(articleDto.getId())).withSelfRel(),
-                linkTo(methodOn(ArticleController.class).getAllArticles()).withRel("articles"));
+    @RequestMapping(value = "/{articleId}", method = RequestMethod.OPTIONS)
+    public ResponseEntity singularOptions() {
+        return ResponseEntity.ok().allow(HttpMethod.GET, HttpMethod.DELETE, HttpMethod.PUT, HttpMethod.OPTIONS).build();
     }
 
 }

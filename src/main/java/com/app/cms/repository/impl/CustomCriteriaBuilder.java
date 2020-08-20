@@ -1,16 +1,15 @@
 package com.app.cms.repository.impl;
 
-import com.app.cms.entity.User;
-
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 
 public class CustomCriteriaBuilder {
     private CriteriaBuilder builder;
-    private Root<User> root;
-    private CriteriaUpdate<User> criteria;
+    private Root<Object> root;
+    private CriteriaUpdate<Object> criteria;
     private EntityManager entityManager;
 
     public CustomCriteriaBuilder(Class clazz, EntityManager entityManager) {
@@ -21,8 +20,20 @@ public class CustomCriteriaBuilder {
     }
 
     public void setIfNotNull(String path, Object value) {
-        if(value != null)
+        if (value != null)
             criteria.set(path, value);
+    }
+
+    public Root<Object> getRoot() {
+        return root;
+    }
+
+    public CriteriaUpdate<Object> getCriteria() {
+        return criteria;
+    }
+
+    public void set(String fieldName, Object value) {
+        criteria.set(fieldName, value);
     }
 
     public void where(Long id) {
@@ -31,6 +42,10 @@ public class CustomCriteriaBuilder {
 
     public void execute() {
         entityManager.createQuery(criteria).executeUpdate();
+    }
+
+    public void execute2() {
+        Query query = entityManager.createQuery(criteria);
     }
 
 }

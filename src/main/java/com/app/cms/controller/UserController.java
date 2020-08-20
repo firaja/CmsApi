@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @PatchMapping(value = "/{userId}")
-    public void updateUserPassword(@PathVariable Long userId, @Valid UserDto userDto) {
+    public void updateUserPassword(@PathVariable Long userId, UserDto userDto) {
         userService.saveUserPartially(userId, userConverter.toMap(userDto));
     }
 

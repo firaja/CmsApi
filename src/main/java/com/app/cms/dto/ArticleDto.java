@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.util.Date;
 
 
@@ -11,7 +13,7 @@ import java.util.Date;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleDto {
+public class ArticleDto extends RepresentationModel<ArticleDto> {
 
     private Long id;
 
@@ -25,5 +27,7 @@ public class ArticleDto {
 
     private Long categoryId;
 
-    private Integer rating;
+    private Float rating;
+
+    private Integer ratingCount;
 }

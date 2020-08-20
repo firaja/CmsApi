@@ -1,20 +1,18 @@
 package com.app.cms.dto;
 
-import com.app.cms.entity.Article;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 @Builder()
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDto {
+public class CommentDto extends RepresentationModel<CommentDto> {
     private Long id;
 
     private String content;

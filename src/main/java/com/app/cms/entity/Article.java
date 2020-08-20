@@ -1,7 +1,6 @@
 package com.app.cms.entity;
 
 import com.app.cms.entity.values.article.Content;
-import com.app.cms.entity.values.article.CreationDate;
 import com.app.cms.entity.values.article.Rating;
 import com.app.cms.entity.values.article.Title;
 import lombok.AllArgsConstructor;
@@ -11,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 
 @Data
@@ -25,15 +25,22 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+
     @NotNull
+    @Embedded
     private Title title;
 
+    @Embedded
     private Content content;
 
-    @NotNull
     @Column(updatable = false)
-    private CreationDate creationDate;
+    private Date creationDate;
 
+    @Embedded
+/*     @AttributeOverrides({
+             @AttributeOverride( name = "ratingValue", column = @Column(name = "rating_value")),
+             @AttributeOverride( name = "ratingCount", column = @Column(name = "rating_count"))
+     })*/
     private Rating rating;
 
     @NotNull
