@@ -7,8 +7,6 @@ import com.app.cms.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @RestController
 @RequestMapping("/comments")
 public class CommentController {
@@ -26,7 +24,7 @@ public class CommentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CommentDto createComment(@RequestBody CommentDto commentDto) {
-        return commentConverter.toDto(commentService.saveComment(commentConverter.toEntity(commentDto)));
+        return commentConverter.toDto(commentService.save(commentConverter.toEntity(commentDto)));
     }
 
     @GetMapping(value = "/{commentId}")
@@ -36,12 +34,12 @@ public class CommentController {
 
     @DeleteMapping(value = "/{commentId}")
     public void deleteComment(@PathVariable Long commentId) {
-        commentService.deleteComment(commentId);
+        commentService.delete(commentId);
     }
 
     @PutMapping
     public CommentDto updateComment(@RequestBody CommentDto commentDto) {
-        return commentConverter.toDto(commentService.saveComment(commentConverter.toEntity(commentDto)));
+        return commentConverter.toDto(commentService.save(commentConverter.toEntity(commentDto)));
     }
 
 

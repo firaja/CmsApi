@@ -1,4 +1,4 @@
-package com.app.cms.entity.values.article;
+package com.app.cms.entity.valueobjects.article;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,11 +17,11 @@ public class Rating implements Serializable {
     private static final long serialVersionUID = 6732775093033061190L;
 
 
-    @Column(name = "htrdfdfdf")
-    private Float rrVal;
+    @Column
+    private Float ratingValue;
 
-    @Column(name = "aratingCount")
-    private Integer aratingCount;
+    @Column
+    private Integer ratingCount;
 
 
     protected Rating() {
@@ -37,8 +37,8 @@ public class Rating implements Serializable {
         if (ratingCount < 0)
             throw new IllegalArgumentException("Rating count must be more than 0");
 
-        this.rrVal = value;
-        this.aratingCount = ratingCount;
+        this.ratingValue = value;
+        this.ratingCount = ratingCount;
     }
 
 

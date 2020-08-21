@@ -1,8 +1,8 @@
 package com.app.cms.entity;
 
-import com.app.cms.entity.values.user.Email;
-import com.app.cms.entity.values.user.Login;
-import com.app.cms.entity.values.user.Password;
+import com.app.cms.entity.valueobjects.user.Email;
+import com.app.cms.entity.valueobjects.user.Login;
+import com.app.cms.entity.valueobjects.user.Password;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

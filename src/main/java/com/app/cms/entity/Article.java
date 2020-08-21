@@ -1,8 +1,8 @@
 package com.app.cms.entity;
 
-import com.app.cms.entity.values.article.Content;
-import com.app.cms.entity.values.article.Rating;
-import com.app.cms.entity.values.article.Title;
+import com.app.cms.entity.valueobjects.article.Content;
+import com.app.cms.entity.valueobjects.article.Rating;
+import com.app.cms.entity.valueobjects.article.Title;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,10 +37,6 @@ public class Article {
     private Date creationDate;
 
     @Embedded
-/*     @AttributeOverrides({
-             @AttributeOverride( name = "ratingValue", column = @Column(name = "rating_value")),
-             @AttributeOverride( name = "ratingCount", column = @Column(name = "rating_count"))
-     })*/
     private Rating rating;
 
     @NotNull

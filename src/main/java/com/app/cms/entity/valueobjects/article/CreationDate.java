@@ -1,4 +1,4 @@
-package com.app.cms.entity.values.comment;
+package com.app.cms.entity.valueobjects.article;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,9 +21,11 @@ public class CreationDate {
     }
 
     public CreationDate(Date value) {
-        if (value == null || value.after(new Date()))
-            throw new IllegalArgumentException("Creation date must be in the past");
+        if (value == null)
+            throw new IllegalArgumentException("CreationDate must be defined");
 
         this.value = value;
     }
+
+
 }

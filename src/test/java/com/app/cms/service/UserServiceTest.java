@@ -3,9 +3,9 @@ package com.app.cms.service;
 
 import com.app.cms.dto.converter.UserConverter;
 import com.app.cms.entity.User;
-import com.app.cms.entity.values.user.Email;
-import com.app.cms.entity.values.user.Login;
-import com.app.cms.entity.values.user.Password;
+import com.app.cms.entity.valueobjects.user.Email;
+import com.app.cms.entity.valueobjects.user.Login;
+import com.app.cms.entity.valueobjects.user.Password;
 import com.app.cms.repository.UserRepository;
 import com.app.cms.validator.UserValidator;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,7 @@ public class UserServiceTest {
                 .password(new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
 
         //when
-        userService.saveUser(user);
+        userService.save(user);
 
         //then
         verify(userRepository, times(1)).save(any());
@@ -59,7 +59,7 @@ public class UserServiceTest {
         var userId = -1L;
 
         //when
-        userService.deleteUser(userId);
+        userService.delete(userId);
 
         //then
         verify(userRepository, times(1)).deleteById(any());

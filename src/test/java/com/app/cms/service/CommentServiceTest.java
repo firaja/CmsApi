@@ -1,7 +1,7 @@
 package com.app.cms.service;
 
 import com.app.cms.entity.Comment;
-import com.app.cms.entity.values.comment.Content;
+import com.app.cms.entity.valueobjects.comment.Content;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.repository.CommentRepository;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ public class CommentServiceTest {
         given(commentRepository.save(any(Comment.class))).willReturn(commentToSave.toBuilder().id(-1L).build());
 
         //when
-        var savedComment = commentService.saveComment(commentToSave);
+        var savedComment = commentService.save(commentToSave);
 
         //then
         then(savedComment.getId()).isEqualTo(-1L);
@@ -50,7 +50,7 @@ public class CommentServiceTest {
         final var commentId = -1L;
 
         //when
-        commentService.deleteComment(commentId);
+        commentService.delete(commentId);
 
         //then
         verify(commentRepository, times(1)).deleteById(any());

@@ -1,4 +1,4 @@
-package com.app.cms.entity.values.article;
+package com.app.cms.entity.valueobjects.comment;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,11 +21,9 @@ public class Content {
     }
 
     public Content(String value) {
-        if (StringUtils.isBlank(value) || value.length() > 50000)
-            throw new IllegalArgumentException("Content must be defined, max length is 50 000 characters");
+        if (StringUtils.isBlank(value) || value.length() > 300)
+            throw new IllegalArgumentException("Content must be defined, max length is 300 characters");
 
         this.value = value;
     }
-
-
 }

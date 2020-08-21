@@ -1,8 +1,8 @@
 package com.app.cms.entity;
 
-import com.app.cms.entity.values.comment.Author;
-import com.app.cms.entity.values.comment.Content;
-import com.app.cms.entity.values.comment.CreationDate;
+import com.app.cms.entity.valueobjects.comment.Author;
+import com.app.cms.entity.valueobjects.comment.Content;
+import com.app.cms.entity.valueobjects.comment.CreationDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

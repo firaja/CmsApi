@@ -1,4 +1,4 @@
-package com.app.cms.entity.values.comment;
+package com.app.cms.entity.valueobjects.comment;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

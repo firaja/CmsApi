@@ -33,7 +33,7 @@ public class ArticleController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ArticleDto createArticle(@RequestBody ArticleDto article) {
-        return articleConverter.toDto(articleService.saveArticle(articleConverter.toEntity(article)));
+        return articleConverter.toDto(articleService.save(articleConverter.toEntity(article)));
     }
 
     @GetMapping(value = "/{articleId}")
@@ -51,18 +51,18 @@ public class ArticleController {
     @DeleteMapping(value = "/{articleId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteArticle(@PathVariable Long articleId) {
-        articleService.deleteArticle(articleId);
+        articleService.delete(articleId);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ArticleDto updateArticle(@RequestBody ArticleDto articleDto) {
-        return articleConverter.toDto(articleService.updateArticle(articleConverter.toEntity(articleDto)));
+        return articleConverter.toDto(articleService.update(articleConverter.toEntity(articleDto)));
     }
 
     @PatchMapping(value = "/{articleId}", consumes = "application/json-patch+json")
     public void updateArticle(@PathVariable Long articleId, ArticleDto articleDto) {
-        articleService.updateArticlePartially(articleId, articleConverter.toEntity(articleDto));
+        articleService.updatePartially(articleId, articleConverter.toEntity(articleDto));
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)

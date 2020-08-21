@@ -26,12 +26,12 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody @Valid UserDto userDto) {
-        return userConverter.toDto(userService.saveUser(userConverter.toEntity(userDto)));
+        return userConverter.toDto(userService.save(userConverter.toEntity(userDto)));
     }
 
     @PutMapping
     public UserDto updateUser(@RequestBody @Valid UserDto userDto) {
-        return userConverter.toDto(userService.saveUser(userConverter.toEntity(userDto)));
+        return userConverter.toDto(userService.save(userConverter.toEntity(userDto)));
     }
 
     @PatchMapping(value = "/{userId}")
@@ -46,7 +46,7 @@ public class UserController {
 
     @DeleteMapping(value = "/{userId}")
     public void deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
+        userService.delete(userId);
     }
 
 

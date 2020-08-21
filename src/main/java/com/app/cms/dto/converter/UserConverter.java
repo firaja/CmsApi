@@ -2,9 +2,9 @@ package com.app.cms.dto.converter;
 
 import com.app.cms.dto.UserDto;
 import com.app.cms.entity.User;
-import com.app.cms.entity.values.user.Email;
-import com.app.cms.entity.values.user.Login;
-import com.app.cms.entity.values.user.Password;
+import com.app.cms.entity.valueobjects.user.Email;
+import com.app.cms.entity.valueobjects.user.Login;
+import com.app.cms.entity.valueobjects.user.Password;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

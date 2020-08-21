@@ -1,8 +1,8 @@
 package com.app.cms.service;
 
 import com.app.cms.entity.Article;
-import com.app.cms.entity.values.article.Content;
-import com.app.cms.entity.values.article.Title;
+import com.app.cms.entity.valueobjects.article.Content;
+import com.app.cms.entity.valueobjects.article.Title;
 import com.app.cms.repository.ArticleRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +32,7 @@ public class ArticleServiceTest {
         given(articleRepository.save(any(Article.class))).willReturn(articleToSave.toBuilder().id(-1L).build());
 
         //when
-        Article savedArticle = articleService.saveArticle(articleToSave);
+        Article savedArticle = articleService.save(articleToSave);
 
         //then
         then(savedArticle.getId()).isNotNull();
@@ -49,7 +49,11 @@ public class ArticleServiceTest {
         valuesToUpdate.put("content", "edited content");*/
 
         //when
-        articleService.updateArticlePartially(-1L, articleToSave);
+        articleService.updatePartially(-1L, articleToSave);
+
+
+
+
 
         //then
         //  then(savedArticle.getId()).isNotNull();

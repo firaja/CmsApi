@@ -13,11 +13,11 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public Comment saveComment(Comment comment) {
+    public Comment save(Comment comment) {
         return commentRepository.save(comment);
     }
 
-    public void deleteComment(Long commentId) {
+    public void delete(Long commentId) {
         commentRepository.deleteById(commentId);
     }
 }

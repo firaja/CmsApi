@@ -1,7 +1,7 @@
 package com.app.cms.service;
 
 import com.app.cms.entity.Category;
-import com.app.cms.entity.values.category.Name;
+import com.app.cms.entity.valueobjects.category.Name;
 import com.app.cms.error.type.NameIsInUseException;
 import com.app.cms.repository.CategoryRepository;
 import com.app.cms.validator.CategoryValidator;
@@ -38,7 +38,7 @@ public class CategoryServiceTest {
         given(categoryRepository.save(any(Category.class))).willReturn(categoryToSave.toBuilder().id(-1L).build());
 
         //when
-        var savedCategory = categoryService.saveCategory(categoryToSave);
+        var savedCategory = categoryService.save(categoryToSave);
 
         //then
         then(savedCategory.getId()).isEqualTo(-1L);
@@ -52,7 +52,7 @@ public class CategoryServiceTest {
         given(categoryRepository.save(any(Category.class))).willReturn(categoryToSave.toBuilder().build());
 
         //when
-        var savedCategory = categoryService.saveCategory(categoryToSave);
+        var savedCategory = categoryService.save(categoryToSave);
 
         //then
         then(savedCategory.getId()).isEqualTo(-1L);
@@ -75,7 +75,7 @@ public class CategoryServiceTest {
     @Test
     public void shouldDeleteCategory() {
         //when
-        categoryService.deleteCategory(-1L);
+        categoryService.delete(-1L);
 
         //then
         verify(categoryRepository, times(1)).deleteById(any(Long.class));

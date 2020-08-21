@@ -3,9 +3,9 @@ package com.app.cms.repository;
 import com.app.cms.entity.Article;
 import com.app.cms.entity.Category;
 import com.app.cms.entity.User;
-import com.app.cms.entity.values.article.Content;
-import com.app.cms.entity.values.article.Rating;
-import com.app.cms.entity.values.article.Title;
+import com.app.cms.entity.valueobjects.article.Content;
+import com.app.cms.entity.valueobjects.article.Rating;
+import com.app.cms.entity.valueobjects.article.Title;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class ArticleRepositoryTest {
         then(savedArticle.getContent().getValue()).isEqualTo("updated content1");
         then(savedArticle.getUser().getId()).isEqualTo(-2L);
         then(savedArticle.getCategory().getId()).isEqualTo(-2L);
-        //    then(savedArticle.getRating().getValue()).isEqualTo(2.3F);
-        //    then(savedArticle.getRating().getCount()).isEqualTo(6);
+        then(savedArticle.getRating().getRatingValue()).isEqualTo(2.3F);
+        then(savedArticle.getRating().getRatingCount()).isEqualTo(6);
     }
 }

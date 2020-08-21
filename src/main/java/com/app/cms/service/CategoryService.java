@@ -16,13 +16,13 @@ public class CategoryService {
         this.categoryValidator = categoryValidator;
     }
 
-    public Category saveCategory(Category category) {
+    public Category save(Category category) {
         categoryValidator.validateOnSave(category);
 
         return categoryRepository.save(category);
     }
 
-    public void deleteCategory(Long categoryId) {
+    public void delete(Long categoryId) {
         categoryValidator.validateOnDelete(categoryId);
 
         categoryRepository.deleteById(categoryId);

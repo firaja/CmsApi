@@ -1,7 +1,7 @@
 package com.app.cms.validator;
 
 import com.app.cms.entity.Category;
-import com.app.cms.entity.values.category.Name;
+import com.app.cms.entity.valueobjects.category.Name;
 import com.app.cms.error.type.NameIsInUseException;
 import com.app.cms.error.type.ObjectHaveReferencedObjects;
 import com.app.cms.repository.ArticleRepository;

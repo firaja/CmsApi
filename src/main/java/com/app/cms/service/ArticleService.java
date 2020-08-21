@@ -20,27 +20,29 @@ public class ArticleService {
         this.articleConverter = articleConverter;
     }
 
-    public Article saveArticle(Article article) {
+    public Article save(Article article) {
         article.setCreationDate(new Date());
 
         return articleRepository.save(article);
     }
 
-    public Article updateArticle(Article article) {
+    public Article update(Article article) {
         if (article.getId() == null)
             throw new IllegalArgumentException("Article id must be set");
 
         return articleRepository.save(article);
     }
 
-    public void updateArticlePartially(Long articleId, Article articleWithChanges) {
+    public void updatePartially(Long articleId, Article articleWithChanges) {
         Article articleFromDb = articleRepository.getOne(articleId);
+
+       // articleRepository.updatePartially(articleWithChanges);
 
 
         articleRepository.save(articleFromDb);
     }
 
-    public void deleteArticle(Long articleId) {
+    public void delete(Long articleId) {
         articleRepository.deleteById(articleId);
     }
 

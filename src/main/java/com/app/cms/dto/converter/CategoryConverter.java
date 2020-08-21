@@ -2,7 +2,7 @@ package com.app.cms.dto.converter;
 
 import com.app.cms.dto.CategoryDto;
 import com.app.cms.entity.Category;
-import com.app.cms.entity.values.category.Name;
+import com.app.cms.entity.valueobjects.category.Name;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

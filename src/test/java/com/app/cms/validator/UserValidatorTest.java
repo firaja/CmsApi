@@ -1,8 +1,8 @@
 package com.app.cms.validator;
 
 import com.app.cms.entity.User;
-import com.app.cms.entity.values.user.Email;
-import com.app.cms.entity.values.user.Login;
+import com.app.cms.entity.valueobjects.user.Email;
+import com.app.cms.entity.valueobjects.user.Login;
 import com.app.cms.error.type.LoginIsInUseException;
 import com.app.cms.error.type.ObjectHaveReferencedObjects;
 import com.app.cms.repository.ArticleRepository;

@@ -7,7 +7,6 @@ import com.app.cms.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,18 +37,18 @@ public class CategoryController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CategoryDto createCategory(@RequestBody CategoryDto categoryDto) {
-        return categoryConverter.toDto(categoryService.saveCategory(categoryConverter.toEntity(categoryDto)));
+        return categoryConverter.toDto(categoryService.save(categoryConverter.toEntity(categoryDto)));
     }
 
     @PutMapping
     public CategoryDto updateCategory(@RequestBody CategoryDto categoryDto) {
-        return categoryConverter.toDto(categoryService.saveCategory(categoryConverter.toEntity(categoryDto)));
+        return categoryConverter.toDto(categoryService.save(categoryConverter.toEntity(categoryDto)));
     }
 
     @DeleteMapping(value = "/{categoryId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable Long categoryId) {
-        categoryService.deleteCategory(categoryId);
+        categoryService.delete(categoryId);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.app.cms.entity.values.user;
+package com.app.cms.entity.valueobjects.user;
 
 import com.app.cms.error.type.PasswordNotContainsUpperAndLowercaseException;
 import com.app.cms.error.type.PasswordTooLongException;

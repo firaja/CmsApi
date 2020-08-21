@@ -1,18 +1,13 @@
 package com.app.cms.repository;
 
-import com.app.cms.dto.converter.UserConverter;
 import com.app.cms.entity.User;
-import com.app.cms.entity.values.user.Email;
-import com.app.cms.entity.values.user.Login;
-import com.app.cms.entity.values.user.Password;
+import com.app.cms.entity.valueobjects.user.Email;
+import com.app.cms.entity.valueobjects.user.Password;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.assertj.core.api.BDDAssertions.then;
 

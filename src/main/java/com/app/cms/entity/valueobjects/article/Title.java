@@ -1,4 +1,4 @@
-package com.app.cms.entity.values.comment;
+package com.app.cms.entity.valueobjects.article;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,17 +12,17 @@ import javax.persistence.Embeddable;
 @Immutable
 @Getter
 @EqualsAndHashCode
-public class Content {
+public class Title {
 
-    @Column(name = "content")
+    @Column(name = "title")
     private String value;
 
-    protected Content() {
+    protected Title() {
     }
 
-    public Content(String value) {
-        if (StringUtils.isBlank(value) || value.length() > 300)
-            throw new IllegalArgumentException("Content must be defined, max length is 300 characters");
+    public Title(String value) {
+        if (StringUtils.isBlank(value) || value.length() > 200)
+            throw new IllegalArgumentException("Title must be defined, max length 200 characters");
 
         this.value = value;
     }

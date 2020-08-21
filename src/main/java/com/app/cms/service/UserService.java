@@ -22,7 +22,7 @@ public class UserService {
         this.userConverter = userConverter;
     }
 
-    public User saveUser(User user) {
+    public User save(User user) {
         userValidator.validateOnSave(user);
         userRepository.save(user);
 
@@ -37,7 +37,7 @@ public class UserService {
         userRepository.updatePartially(userId, user);
     }
 
-    public void deleteUser(Long userId) {
+    public void delete(Long userId) {
         userValidator.validateOnDelete(userId);
         userRepository.deleteById(userId);
     }

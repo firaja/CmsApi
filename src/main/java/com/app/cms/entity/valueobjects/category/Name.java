@@ -1,4 +1,4 @@
-package com.app.cms.entity.values.category;
+package com.app.cms.entity.valueobjects.category;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
