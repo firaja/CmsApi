@@ -23,7 +23,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
@@ -45,30 +47,52 @@ public class ArticleConverterTest {
     @InjectMocks
     private ArticleConverter articleConverter;
 
+    @Test
+    public void shouldThrowError_titleIsNotSet() {
+        //given
+        var articleDto = articleDtoWithAllFieldsSet();
+        articleDto.setTitle(null);
+
+        //when
+        assertThatThrownBy(() -> {
+            articleConverter.toEntity(articleDto);
+        }).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Title");
+    }
+
+    @Test
+    public void shouldThrowError_contentIsNotSet() {
+        //given
+        var articleDto = articleDtoWithAllFieldsSet();
+        articleDto.setContent(null);
+
+        //when
+        assertThatThrownBy(() -> {
+            articleConverter.toEntity(articleDto);
+        }).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Content");
+    }
+
+    @Test
+    public void shouldThrowError_ratingCountIsNotSet() {
+        //given
+        var articleDto = articleDtoWithAllFieldsSet();
+        articleDto.setRatingCount(null);
+
+        //when
+        assertThatThrownBy(() -> {
+            articleConverter.toEntity(articleDto);
+        }).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("rating count");
+    }
 
     @Test
     public void shouldConvertDtoToEntity() {
         //given
-        String title = "title test";
-        String content = "content test";
-        Date creationDate = new Date();
         long categoryId = -20L;
         long userId = -30L;
         float rateValue = 4.3F;
+        var articleDto = articleDtoWithAllFieldsSet();
 
-        var articleDto = ArticleDto.builder()
-                .id(-1L)
-                .title(title)
-                .content(content)
-                .categoryId(categoryId)
-                .userId(userId)
-                .creationDate(creationDate)
-                .ratingValue(rateValue)
-                .ratingCount(5)
-                .build();
-
-        given(categoryRepository.getOne(categoryId)).willReturn(Category.builder().id(categoryId).build());
-        given(userRepository.getOne(userId)).willReturn(User.builder().id(userId).build());
+        given(categoryRepository.getOne(any())).willReturn(Category.builder().id(categoryId).build());
+        given(userRepository.getOne(any())).willReturn(User.builder().id(userId).build());
 
         //when
         var article = articleConverter.toEntity(articleDto);
@@ -76,9 +100,9 @@ public class ArticleConverterTest {
         //then
         then(article).isNotNull();
         then(article.getId()).isNotNull();
-        then(article.getTitle().getValue()).isEqualTo(title);
-        then(article.getContent().getValue()).isEqualTo(content);
-        then(article.getCreationDate()).isEqualTo(creationDate);
+        then(article.getTitle().getValue()).isEqualTo("title test");
+        then(article.getContent().getValue()).isEqualTo("content test");
+        then(article.getCreationDate()).isNotNull();
         then(article.getRating().getValue()).isEqualTo(rateValue);
         then(article.getUser()).isNotNull();
         then(article.getUser().getId()).isNotNull();
@@ -121,34 +145,96 @@ public class ArticleConverterTest {
     }
 
     @Test
-    public void shouldConvertMapToEntity() {
+    public void shouldConvertMapToEntity_AllFields() {
         //given
-/*       final var objectValues = Article.builder()
-                .title(Title.of("updated title1"))
-                .content(Content.of("updated content1"))
-                .user(User.builder().id(-2L).build())
-                .category(Category.builder().id(-2L).build())
-          //      .rating(new Rating(2.3F, 6))
-                .build();*/
-
         Map<String, Object> changedValues = new HashMap<>();
         changedValues.put("title", "this is new title");
-        changedValues.put("ratingCount", "3");
-        changedValues.put("ratingValue", "4.5");
+        changedValues.put("ratingCount", 3);
+        changedValues.put("ratingValue", 4.5);
+        changedValues.put("content", "updated content2");
+        changedValues.put("userId", 16L);
+        changedValues.put("categoryId", -21);
+        changedValues.put("id", -10);
+
+        given(categoryRepository.getOne(any())).willReturn(Category.builder().id(-21L).build());
+        given(userRepository.getOne(any())).willReturn(User.builder().id(-16L).build());
 
         //when
         Article article = articleConverter.toEntity(changedValues);
-        //    articleRepository.updatePartially(-1L, articleToSave);
-        //    articleRepository.updatePartially(-1L, changedValues);
 
         //then
         then(article.getTitle().getValue()).isEqualTo("this is new title");
-      /*  then(savedArticle.getContent().getValue()).isEqualTo("updated content1");
-        then(savedArticle.getUser().getId()).isEqualTo(-2L);
-        then(savedArticle.getCategory().getId()).isEqualTo(-2L);
-        then(savedArticle.getRating().getValue()).isEqualTo(2.3F);
-        then(savedArticle.getRating().getCount()).isEqualTo(6);*/
+        then(article.getRating().getValue()).isEqualTo(4.5F);
+        then(article.getRating().getCount()).isEqualTo(3);
+        then(article.getContent().getValue()).isEqualTo("updated content2");
+        then(article.getUser().getId()).isEqualTo(-16L);
+        then(article.getCategory().getId()).isEqualTo(-21L);
+        then(article.getId()).isEqualTo(-10);
     }
 
+    @Test
+    public void shouldConvertMapToEntity_WithTitleAndContentOnly() {
+        //given
+        Map<String, Object> changedValues = new HashMap<>();
+        changedValues.put("title", "this is new title");
+        changedValues.put("content", "updated content2");
 
+        //when
+        Article article = articleConverter.toEntity(changedValues);
+
+        //then
+        then(article.getTitle().getValue()).isEqualTo("this is new title");
+        then(article.getContent().getValue()).isEqualTo("updated content2");
+        then(article.getId()).isNull();
+        then(article.getRating()).isNull();
+        then(article.getUser()).isNull();
+    }
+
+    @Test
+    public void shouldConvertMapToEntity_WithRatingOnly() {
+        //given
+        Map<String, Object> changedValues = new HashMap<>();
+        changedValues.put("ratingCount", 3);
+        changedValues.put("ratingValue", 4.5);
+
+        //when
+        Article article = articleConverter.toEntity(changedValues);
+
+        //then
+        then(article.getRating().getValue()).isEqualTo(4.5F);
+        then(article.getRating().getCount()).isEqualTo(3);
+        then(article.getTitle()).isNull();
+        then(article.getContent()).isNull();
+        then(article.getId()).isNull();
+        then(article.getUser()).isNull();
+    }
+
+    @Test
+    public void shouldConvertMapToEntity_MapIsEmpty() {
+        //given
+        Map<String, Object> changedValues = new HashMap<>();
+
+        //when
+        Article article = articleConverter.toEntity(changedValues);
+
+        //then
+        then(article.getRating()).isNull();
+        then(article.getTitle()).isNull();
+        then(article.getContent()).isNull();
+        then(article.getId()).isNull();
+        then(article.getUser()).isNull();
+    }
+
+    private ArticleDto articleDtoWithAllFieldsSet() {
+        return ArticleDto.builder()
+                .id(-1L)
+                .title("title test")
+                .content("content test")
+                .categoryId(-20L)
+                .userId(-30L)
+                .creationDate(new Date())
+                .ratingValue(4.3F)
+                .ratingCount(5)
+                .build();
+    }
 }

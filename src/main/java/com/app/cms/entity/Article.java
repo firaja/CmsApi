@@ -43,7 +43,7 @@ public class Article {
     private User user;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
 }

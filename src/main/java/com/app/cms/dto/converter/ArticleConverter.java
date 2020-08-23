@@ -42,19 +42,10 @@ public class ArticleConverter implements ObjectConverter<Article, ArticleDto> {
         articleDto.setCategoryId(article.getCategory().getId());
         articleDto.setId(article.getId());
         articleDto.setCreationDate(article.getCreationDate());
-
-        if (article.getContent() != null)
-            articleDto.setContent(article.getContent().getValue());
-
-        if (article.getRating() != null) {
-            MoreObjects.firstNonNull()
-            ObjectUtils.defaultIfNull(articleDto::setRatingValue, null);
-            //          articleDto.setRatingValue(article.getRating().getValue());
-            articleDto.setRatingCount(article.getRating().getCount());
-        }
-
-        if (article.getTitle() != null)
-            articleDto.setTitle(article.getTitle().getValue());
+        articleDto.setContent(article.getContent().getValue());
+        articleDto.setRatingValue(article.getRating().getValue());
+        articleDto.setRatingCount(article.getRating().getCount());
+        articleDto.setTitle(article.getTitle().getValue());
 
         articleDto.add(
                 linkTo(methodOn(ArticleController.class).getArticleById(article.getId())).withSelfRel(),
@@ -63,39 +54,40 @@ public class ArticleConverter implements ObjectConverter<Article, ArticleDto> {
         return articleDto;
     }
 
+    public Article toEntity(Map<String, Object> objectAsMap) {
+        var articleDto = jacksonModelMapper.convertValue(objectAsMap, ArticleDto.class);
+
+        return toEntity(articleDto, ConvertType.PART_OF_FIELDS_CAN_BE_SET);
+    }
+
     @Override
     public Article toEntity(ArticleDto articleDto) {
+        return toEntity(articleDto, ConvertType.ALL_FIELDS_MUST_BE_SET);
+    }
+
+    enum ConvertType {
+        ALL_FIELDS_MUST_BE_SET,
+        PART_OF_FIELDS_CAN_BE_SET;
+    }
+
+    private Article toEntity(ArticleDto articleDto, ConvertType convertType) {
         Article article = modelMapper.map(articleDto, Article.class);
 
-        article.setCategory(categoryRepository.getOne(articleDto.getCategoryId()));
-        article.setUser(userRepository.getOne(articleDto.getUserId()));
+        if(articleDto.getCategoryId() != null || convertType == ConvertType.ALL_FIELDS_MUST_BE_SET)
+            article.setCategory(categoryRepository.getOne(articleDto.getCategoryId()));
 
-        article.setTitle(Title.of(articleDto.getTitle()));
-        article.setContent(Content.of(articleDto.getContent()));
-        article.setRating(Rating.of(articleDto.getRatingValue(), articleDto.getRatingCount()));
+        if(articleDto.getUserId() != null || convertType == ConvertType.ALL_FIELDS_MUST_BE_SET)
+            article.setUser(userRepository.getOne(articleDto.getUserId()));
 
+        if(articleDto.getTitle() != null || convertType == ConvertType.ALL_FIELDS_MUST_BE_SET)
+            article.setTitle(Title.of(articleDto.getTitle()));
+
+        if(articleDto.getContent() != null || convertType == ConvertType.ALL_FIELDS_MUST_BE_SET)
+            article.setContent(Content.of(articleDto.getContent()));
+
+        if(articleDto.getRatingValue() != null || articleDto.getRatingCount() != null || convertType == ConvertType.ALL_FIELDS_MUST_BE_SET)
+            article.setRating(Rating.of(articleDto.getRatingValue(), articleDto.getRatingCount()));
 
         return article;
     }
-
-    public Article toEntity(Map<String, Object> objectAsMap) {
-        var articleDto = jacksonModelMapper.convertValue(objectAsMap, ArticleDto.class);
-        return toEntity(articleDto);
-    }
 }
-
-/*
-class ClassUtils<T> {
-
-    protected ClassUtils() { }
-
-    public static  void setIfNotNull(final Supplier getter, final Consumer setter) {
-
-        T t = getter.get();
-
-        if (null != t) {
-            setter.accept(t);
-        }
-    }
-}
-*/
