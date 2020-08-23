@@ -9,6 +9,8 @@ import com.app.cms.entity.valueobjects.article.Title;
 import com.app.cms.repository.CategoryRepository;
 import com.app.cms.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.MoreObjects;
+import org.apache.commons.lang3.ObjectUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -45,9 +47,10 @@ public class ArticleConverter implements ObjectConverter<Article, ArticleDto> {
             articleDto.setContent(article.getContent().getValue());
 
         if (article.getRating() != null) {
-            //      articleDto.setRating(article.getRating().getValue());
-            //     articleDto.setRatingCount(article.getRating().getCount());
-            //         articleDto.setRatingCount(article.getRating().;
+            MoreObjects.firstNonNull()
+            ObjectUtils.defaultIfNull(articleDto::setRatingValue, null);
+            //          articleDto.setRatingValue(article.getRating().getValue());
+            articleDto.setRatingCount(article.getRating().getCount());
         }
 
         if (article.getTitle() != null)
@@ -67,14 +70,32 @@ public class ArticleConverter implements ObjectConverter<Article, ArticleDto> {
         article.setCategory(categoryRepository.getOne(articleDto.getCategoryId()));
         article.setUser(userRepository.getOne(articleDto.getUserId()));
 
-        article.setTitle(new Title(articleDto.getTitle()));
-        article.setContent(new Content(articleDto.getContent()));
-        article.setRating(new Rating(articleDto.getRating(), articleDto.getRatingCount()));
+        article.setTitle(Title.of(articleDto.getTitle()));
+        article.setContent(Content.of(articleDto.getContent()));
+        article.setRating(Rating.of(articleDto.getRatingValue(), articleDto.getRatingCount()));
+
 
         return article;
     }
 
     public Article toEntity(Map<String, Object> objectAsMap) {
-        return jacksonModelMapper.convertValue(objectAsMap, Article.class);
+        var articleDto = jacksonModelMapper.convertValue(objectAsMap, ArticleDto.class);
+        return toEntity(articleDto);
     }
 }
+
+/*
+class ClassUtils<T> {
+
+    protected ClassUtils() { }
+
+    public static  void setIfNotNull(final Supplier getter, final Consumer setter) {
+
+        T t = getter.get();
+
+        if (null != t) {
+            setter.accept(t);
+        }
+    }
+}
+*/

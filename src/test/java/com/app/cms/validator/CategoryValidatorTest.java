@@ -33,7 +33,7 @@ public class CategoryValidatorTest {
     @Test
     public void shouldThrowError_WhenCreateNewCategory_CategoryWithSameNameExists() {
         //given
-        var category = Category.builder().name(new Name("name")).build();
+        var category = Category.builder().name(Name.of("name")).build();
         given(categoryRepository.existsByName(any(String.class))).willReturn(true);
 
         //when, then
@@ -45,7 +45,7 @@ public class CategoryValidatorTest {
     @Test
     public void shouldThrowError_WhenUpdateCategory_CategoryWithSameNameExists() {
         //given
-        var category = Category.builder().id(-1L).name(new Name("name")).build();
+        var category = Category.builder().id(-1L).name(Name.of("name")).build();
         given(categoryRepository.existsByNameAndIdNot(any(String.class), any(Long.class))).willReturn(true);
 
         //when, then

@@ -26,7 +26,7 @@ public class CategoryConverter implements ObjectConverter<Category, CategoryDto>
     @Override
     public Category toEntity(CategoryDto categoryDto) {
         var category = modelMapper.map(categoryDto, Category.class);
-        category.setName(new Name(categoryDto.getName()));
+        category.setName(Name.of(categoryDto.getName()));
 
         return category;
     }

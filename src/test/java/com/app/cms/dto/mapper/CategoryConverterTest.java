@@ -27,14 +27,14 @@ public class CategoryConverterTest {
     @Test
     public void shouldConvertDtoToEntity() {
         //given
-        var category = Category.builder().id(-1L).name(new Name("category")).build();
+        var category = Category.builder().id(-1L).name(Name.of("category")).build();
 
         //when
         var categoryDto = categoryConverter.toDto(category);
 
         //then
         assertThat(categoryDto.getId()).isEqualTo(-1L);
-        assertThat(categoryDto.getName()).isEqualTo(new Name("category").getValue());
+        assertThat(categoryDto.getName()).isEqualTo(Name.of("category").getValue());
     }
 
     @Test

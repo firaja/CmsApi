@@ -1,30 +1,29 @@
 package com.app.cms.entity.valueobjects.article;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Date;
 
-@Embeddable
 @Immutable
 @Getter
 @EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+
+@Embeddable
 public class CreationDate {
 
     @Column(name = "creationDate")
     private Date value;
 
-    protected CreationDate() {
-    }
-
-    public CreationDate(Date value) {
+    public static CreationDate of(Date value) {
         if (value == null)
             throw new IllegalArgumentException("CreationDate must be defined");
 
-        this.value = value;
+        return new CreationDate(value);
     }
 
 

@@ -22,7 +22,7 @@ public class UserRepositoryTest {
     @Test
     public void shouldUpdateUserEmail() {
         //given
-        var user = User.builder().email(new Email("newEmail@mail.com")).build();
+        var user = User.builder().email(Email.of("newEmail@mail.com")).build();
 
         //when
         userRepository.updatePartially(-1L, user);
@@ -34,7 +34,7 @@ public class UserRepositoryTest {
     @Test
     public void shouldUpdateUserEmailAndPassword() {
         //given
-        var user = User.builder().email(new Email("newEmail@mail.com")).password(new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd', '1', '2', '3'})).build();
+        var user = User.builder().email(Email.of("newEmail@mail.com")).password(Password.of(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd', '1', '2', '3'})).build();
 
         //when
         userRepository.updatePartially(-1L, user);

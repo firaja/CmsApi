@@ -1,7 +1,7 @@
 package com.app.cms.repository;
 
-import com.app.cms.entity.Article;
+import java.util.Map;
 
 public interface ArticleRepositoryConcreteMethods {
-    void updatePartially(long articleId, Article article);
+    void updatePartially(long articleId, Map<String, Object> changedValues);
 }

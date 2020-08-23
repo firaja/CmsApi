@@ -34,7 +34,7 @@ public class UserValidatorTest {
     @Test
     public void shouldThrowError_WhenCreateNewUser_UserWithSameLoginExists() {
         //given
-        var user = User.builder().login(new Login("login")).build();
+        var user = User.builder().login(Login.of("login")).build();
         given(userRepository.existsByLogin(any(String.class))).willReturn(true);
 
         //when, then
@@ -46,7 +46,7 @@ public class UserValidatorTest {
     @Test
     public void shouldThrowError_WhenUpdateUser_UserWithSameLoginExists() {
         //given
-        var user = User.builder().id(-1L).login(new Login("login")).build();
+        var user = User.builder().id(-1L).login(Login.of("login")).build();
         given(userRepository.existsByLoginAndIdNot(any(String.class), any(Long.class))).willReturn(true);
 
         //when, then
@@ -96,7 +96,7 @@ public class UserValidatorTest {
     @Test
     public void shouldValidatePartiallyUpdatedUser() {
         //given
-        var user = User.builder().id(-1L).email(new Email("email@email.com")).build();
+        var user = User.builder().id(-1L).email(Email.of("email@email.com")).build();
         //  given(userRepository.existsByLogin(any(String.class))).willReturn(false);
 
         //when then

@@ -34,7 +34,7 @@ public class CategoryServiceTest {
     @Test
     public void shouldCreateCategory() {
         //given
-        final var categoryToSave = Category.builder().name(new Name("category 1")).build();
+        final var categoryToSave = Category.builder().name(Name.of("category 1")).build();
         given(categoryRepository.save(any(Category.class))).willReturn(categoryToSave.toBuilder().id(-1L).build());
 
         //when
@@ -48,7 +48,7 @@ public class CategoryServiceTest {
     @Test
     public void shouldUpdateCategory() {
         //given
-        final var categoryToSave = Category.builder().id(-1L).name(new Name("category 1")).build();
+        final var categoryToSave = Category.builder().id(-1L).name(Name.of("category 1")).build();
         given(categoryRepository.save(any(Category.class))).willReturn(categoryToSave.toBuilder().build());
 
         //when
@@ -62,7 +62,7 @@ public class CategoryServiceTest {
     @Test
     public void shouldThrowError_WhenUpdateCategory_ValidationFail() {
         //given
-        final var categoryToSave = Category.builder().id(-1L).name(new Name("category 1")).build();
+        final var categoryToSave = Category.builder().id(-1L).name(Name.of("category 1")).build();
         given(categoryRepository.save(any(Category.class))).willReturn(categoryToSave.toBuilder().build());
         doThrow(new NameIsInUseException("Name in use")).when(categoryValidator).validateOnSave(categoryToSave);
 

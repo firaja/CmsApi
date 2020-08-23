@@ -25,7 +25,6 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
     @NotNull
     @Embedded
     private Title title;
@@ -44,6 +43,7 @@ public class Article {
     private User user;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.)
     private Category category;
+
 }

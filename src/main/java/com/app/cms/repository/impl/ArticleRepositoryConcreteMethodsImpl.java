@@ -1,6 +1,5 @@
 package com.app.cms.repository.impl;
 
-import com.app.cms.entity.Article;
 import com.app.cms.repository.ArticleRepositoryConcreteMethods;
 
 import javax.persistence.EntityManager;
@@ -15,15 +14,30 @@ public class ArticleRepositoryConcreteMethodsImpl implements ArticleRepositoryCo
     EntityManager entityManager;
 
     @Override
-    public void updatePartially(long articleId, Article article) {
+    public void updatePartially(long articleId, Map<String, Object> changedValues) {
+        QueryBuilder queryBuilder = new QueryBuilder("Article");
+
+        for (Map.Entry<String, Object> changedValue : changedValues.entrySet()) {
+            queryBuilder.addParameter(changedValue.getKey(), changedValue.getValue());
+        }
+
+        queryBuilder.whereId(articleId);
+        queryBuilder.runQuery(entityManager);
+    }
+
+
+ /*   public void updatePartially(long articleId, Article article) {
         new QueryBuilder("Article")
-                .addParameterIfNotNull("content", article.getContent())
-                .addParameterIfNotNull("title", article.getTitle())
-                .addParameterIfNotNull("rating_value", article.getRating().getRatingValue())
-                .addParameterIfNotNull("rating_count", article.getRating().getRatingCount())
+                .addParameterIfIsSet("content", article.getContent())
+                .addParameterIfIsSet("title", article.getTitle())
+                .addParameterIfIsSet("rating_value", article.getRating() != null ? article.getRating().getRatingValue() : null) //co tuu trzeba zrobic
+                .addParameterIfIsSet("rating_count", article.getRating() != null ? article.getRating().getRatingCount() : null)
+                .addParameterIfIsSet("title", article.getTitle().getValue() != null ? article.getTitle().getValue() : null)
+                .addParameterIfIsSet("rating_count", article.getRating() != null ? article.getRating().getRatingCount() : null)
                 .whereId(articleId)
                 .runQuery(entityManager);
-    }
+    }*/
+
 
 }
 
@@ -35,11 +49,11 @@ class QueryBuilder {
          queryText.append("update ").append(tableName).append(" set");
     }
 
-    public QueryBuilder addParameterIfNotNull(String columnName, Object value) {
-         if(value != null)
-             addParameter(columnName, value);
+    public QueryBuilder addParameterIfIsSet(String columnName, Object value) {
+        if (value != null)
+            addParameter(columnName, value);
 
-         return this;
+        return this;
     }
 
     public QueryBuilder addParameter(String columnName, Object value) {

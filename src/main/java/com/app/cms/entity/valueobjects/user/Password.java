@@ -6,42 +6,41 @@ import com.app.cms.error.type.PasswordTooShortException;
 import com.app.cms.error.type.PasswordsAreNotSameException;
 import com.password4j.Hash;
 import com.password4j.SecureString;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Arrays;
 
-@Embeddable
 @Immutable
 @Getter
 @EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+
+@Embeddable
 public final class Password {
 
     @Column(name = "password")
     private char[] value;
 
-    protected Password() {
-    }
-
-    public Password(char[] value) {
+    public static Password of(char[] value) {
         validate(value);
 
-        this.value = hashPass(value);
+        return Password.of(hashPass(value));
     }
 
-    public Password(char[] password, char[] passwordConfirm) {
+    public static Password of(char[] password, char[] passwordConfirm) {
         if (!Arrays.equals(password, passwordConfirm))
             throw new PasswordsAreNotSameException("Passwords are different");
 
         validate(password);
 
-        this.value = hashPass(password);
+        return new Password(hashPass(password));
     }
 
-    private void validate(char[] password) {
+    private static void validate(char[] password) {
         if (password.length < 6) {
             throw new PasswordTooShortException("Password must be at least 6 characters");
         } else if (password.length > 20) {
@@ -51,7 +50,7 @@ public final class Password {
         }
     }
 
-    private boolean isContainsUpperAndLowerCase(char[] password) {
+    private static boolean isContainsUpperAndLowerCase(char[] password) {
         int uppercaseCounter = 0;
         int lowercaseCounter = 0;
 
@@ -65,7 +64,7 @@ public final class Password {
         return uppercaseCounter > 0 && lowercaseCounter > 0 ? true : false;
     }
 
-    private char[] hashPass(char[] password) {
+    private static char[] hashPass(char[] password) {
         SecureString securedPassword = new SecureString(password);
         Hash hash = com.password4j.Password.hash(securedPassword).addSalt("4jvd8343j4f23mc").withPBKDF2();
 

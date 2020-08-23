@@ -37,9 +37,9 @@ public class UserConverter implements ObjectConverter<User, UserDto> {
     @Override
     public User toEntity(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
-        user.setLogin(new Login(userDto.getLogin()));
-        user.setPassword(new Password(userDto.getPassword(), userDto.getPasswordConfirm()));
-        user.setEmail(new Email(userDto.getEmail()));
+        user.setLogin(Login.of(userDto.getLogin()));
+        user.setPassword(Password.of(userDto.getPassword(), userDto.getPasswordConfirm()));
+        user.setEmail(Email.of(userDto.getEmail()));
 
         return user;
     }

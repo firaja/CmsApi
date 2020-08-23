@@ -62,16 +62,16 @@ public class UserConverterTest {
     @Test
     public void shouldConvertEntityToDto() {
         //given
-        var user = User.builder().id(-1L).login(new Login("login")).email(new Email("mail@mail.com"))
-                .password(new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
+        var user = User.builder().id(-1L).login(Login.of("login")).email(Email.of("mail@mail.com"))
+                .password(Password.of(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
 
         //when
         var userDto = userConverter.toDto(user);
 
         //then
         then(userDto.getId()).isEqualTo(-1L);
-        then(userDto.getLogin()).isEqualTo(new Login("login").getValue());
-        then(userDto.getEmail()).isEqualTo(new Email("mail@mail.com").getValue());
+        then(userDto.getLogin()).isEqualTo(Login.of("login").getValue());
+        then(userDto.getEmail()).isEqualTo(Email.of("mail@mail.com").getValue());
         then(userDto.getPassword()).isNull();
         then(userDto.getPasswordConfirm()).isNull();
     }

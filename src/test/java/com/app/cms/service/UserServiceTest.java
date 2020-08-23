@@ -42,8 +42,8 @@ public class UserServiceTest {
     @Test
     public void shouldCreateUser() {
         //given
-        var user = User.builder().id(-1L).login(new Login("login")).email(new Email("mail@mail.com"))
-                .password(new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
+        var user = User.builder().id(-1L).login(Login.of("login")).email(Email.of("mail@mail.com"))
+                .password(Password.of(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
 
         //when
         userService.save(user);
@@ -68,7 +68,7 @@ public class UserServiceTest {
     @Test
     public void shouldUpdateUserPartially() {
         //given
-        var user = User.builder().id(-1L).email(new Email("mail@mail.com")).build();
+        var user = User.builder().id(-1L).email(Email.of("mail@mail.com")).build();
 
         given(userConverter.toEntity(any(Map.class))).willReturn(user);
         Map<String, Object> userValues = new HashMap<>();

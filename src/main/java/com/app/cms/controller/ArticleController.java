@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -61,9 +62,14 @@ public class ArticleController {
     }
 
     @PatchMapping(value = "/{articleId}", consumes = "application/json-patch+json")
+    public void updateArticle(@PathVariable Long articleId, @RequestBody HashMap<String, Object> changedValues) {
+        articleService.updatePartially(articleId, changedValues);
+    }
+
+  /*  @PatchMapping(value = "/{articleId}", consumes = "application/json-patch+json")
     public void updateArticle(@PathVariable Long articleId, ArticleDto articleDto) {
         articleService.updatePartially(articleId, articleConverter.toEntity(articleDto));
-    }
+    }*/
 
     @RequestMapping(method = RequestMethod.OPTIONS)
     public ResponseEntity collectionOptions() {

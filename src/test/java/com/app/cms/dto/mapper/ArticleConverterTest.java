@@ -20,6 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
@@ -35,10 +37,14 @@ public class ArticleConverterTest {
     private CategoryRepository categoryRepository;
 
     @Spy
+    private com.fasterxml.jackson.databind.ObjectMapper jacksonModelMapper;
+
+    @Spy
     private ModelMapper modelMapper;
 
     @InjectMocks
     private ArticleConverter articleConverter;
+
 
     @Test
     public void shouldConvertDtoToEntity() {
@@ -48,7 +54,7 @@ public class ArticleConverterTest {
         Date creationDate = new Date();
         long categoryId = -20L;
         long userId = -30L;
-        float rate = 4.3F;
+        float rateValue = 4.3F;
 
         var articleDto = ArticleDto.builder()
                 .id(-1L)
@@ -57,7 +63,8 @@ public class ArticleConverterTest {
                 .categoryId(categoryId)
                 .userId(userId)
                 .creationDate(creationDate)
-                .rating(rate)
+                .ratingValue(rateValue)
+                .ratingCount(5)
                 .build();
 
         given(categoryRepository.getOne(categoryId)).willReturn(Category.builder().id(categoryId).build());
@@ -72,7 +79,7 @@ public class ArticleConverterTest {
         then(article.getTitle().getValue()).isEqualTo(title);
         then(article.getContent().getValue()).isEqualTo(content);
         then(article.getCreationDate()).isEqualTo(creationDate);
-        //     then(article.getRating().getValue()).isEqualTo(rate);
+        then(article.getRating().getValue()).isEqualTo(rateValue);
         then(article.getUser()).isNotNull();
         then(article.getUser().getId()).isNotNull();
         then(article.getCategory()).isNotNull();
@@ -87,14 +94,14 @@ public class ArticleConverterTest {
         long articleId = -1L;
         long userId = -5L;
         long categoryId = -10L;
-        float rating = 3.2F;
+        float ratingValue = 3.2F;
         int ratingCount = 6;
 
         var article = Article.builder()
                 .id(articleId)
-                .title(new Title(title))
-                .content(new Content(content))
-                .rating(new Rating(rating, ratingCount))
+                .title(Title.of(title))
+                .content(Content.of(content))
+                .rating(Rating.of(ratingValue, ratingCount))
                 .user(User.builder().id(userId).build())
                 .category(Category.builder().id(categoryId).build())
                 .creationDate(new Date())
@@ -109,7 +116,39 @@ public class ArticleConverterTest {
         then(articleDto.getContent()).isEqualTo(content);
         then(articleDto.getCategoryId()).isEqualTo(categoryId);
         then(articleDto.getUserId()).isEqualTo(userId);
-        then(articleDto.getRating()).isEqualTo(rating);
+        then(articleDto.getRatingValue()).isEqualTo(ratingValue);
         then(articleDto.getCreationDate()).isNotNull();
     }
+
+    @Test
+    public void shouldConvertMapToEntity() {
+        //given
+/*       final var objectValues = Article.builder()
+                .title(Title.of("updated title1"))
+                .content(Content.of("updated content1"))
+                .user(User.builder().id(-2L).build())
+                .category(Category.builder().id(-2L).build())
+          //      .rating(new Rating(2.3F, 6))
+                .build();*/
+
+        Map<String, Object> changedValues = new HashMap<>();
+        changedValues.put("title", "this is new title");
+        changedValues.put("ratingCount", "3");
+        changedValues.put("ratingValue", "4.5");
+
+        //when
+        Article article = articleConverter.toEntity(changedValues);
+        //    articleRepository.updatePartially(-1L, articleToSave);
+        //    articleRepository.updatePartially(-1L, changedValues);
+
+        //then
+        then(article.getTitle().getValue()).isEqualTo("this is new title");
+      /*  then(savedArticle.getContent().getValue()).isEqualTo("updated content1");
+        then(savedArticle.getUser().getId()).isEqualTo(-2L);
+        then(savedArticle.getCategory().getId()).isEqualTo(-2L);
+        then(savedArticle.getRating().getValue()).isEqualTo(2.3F);
+        then(savedArticle.getRating().getCount()).isEqualTo(6);*/
+    }
+
+
 }

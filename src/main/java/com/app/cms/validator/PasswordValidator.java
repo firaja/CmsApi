@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 /*    @Override
     public void validateOnSave(char[] password) {
         if (password.length < 6) {
-            throw new PasswordTooShortException("Password must be at least 6 characters");
+            throw Password.ofTooShortException("Password must be at least 6 characters");
         } else if (password.length > 20) {
-            throw new PasswordTooLongException("Password must be 20 characters or less");
+            throw Password.ofTooLongException("Password must be 20 characters or less");
         } else if (!isContainsUpperAndLowerCase(password)) {
-            throw new PasswordNotContainsUpperAndLowercaseException("Password must contain at least one lowercase and uppercase characters");
+            throw Password.ofNotContainsUpperAndLowercaseException("Password must contain at least one lowercase and uppercase characters");
         }
     }
 

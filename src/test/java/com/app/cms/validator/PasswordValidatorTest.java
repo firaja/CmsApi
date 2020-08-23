@@ -20,7 +20,7 @@ public class PasswordValidatorTest {
     @Test
     public void shouldValidatePassword() {
         //given when
-        var password = new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'});
+        var password = Password.of(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'});
 
         //then
         then(password.getValue()).isNotEmpty();
@@ -29,7 +29,7 @@ public class PasswordValidatorTest {
     @Test
     public void shouldValidatePassword_6Letters() {
         //given when
-        var password = new Password(new char[]{'P', 'a', 's', 's', 'w', 'o'});
+        var password = Password.of(new char[]{'P', 'a', 's', 's', 'w', 'o'});
 
         //then
         then(password.getValue()).isNotEmpty();
@@ -38,7 +38,7 @@ public class PasswordValidatorTest {
     @Test
     public void shouldValidatePassword_20Letters() {
         //given when
-        var password = new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'd', '1', '2', '3', 'P', 'a', 's', 's', 'w', 'o', 'd', '1', '2', '3'});
+        var password = Password.of(new char[]{'P', 'a', 's', 's', 'w', 'o', 'd', '1', '2', '3', 'P', 'a', 's', 's', 'w', 'o', 'd', '1', '2', '3'});
 
         //then
         then(password.getValue()).isNotEmpty();
@@ -48,7 +48,7 @@ public class PasswordValidatorTest {
     public void shouldThrowError_passwordToShort() {
         //given when then
         assertThatThrownBy(() -> {
-            new Password(new char[]{'P', 'a', 's', 's', 'w'});
+            Password.of(new char[]{'P', 'a', 's', 's', 'w'});
         }).isInstanceOf(PasswordTooShortException.class);
     }
 
@@ -56,7 +56,7 @@ public class PasswordValidatorTest {
     public void shouldThrowError_passwordToLong() {
         //given when then
         assertThatThrownBy(() -> {
-            new Password(new char[]{'P', 'a', 's', 's', 'w', 'o', 'd', '1', '2', '3', 'P', 'a', 's', 's', 'w', 'o', 'd', '1', '2', '3', '4'});
+            Password.of(new char[]{'P', 'a', 's', 's', 'w', 'o', 'd', '1', '2', '3', 'P', 'a', 's', 's', 'w', 'o', 'd', '1', '2', '3', '4'});
         }).isInstanceOf(PasswordTooLongException.class);
     }
 
@@ -64,7 +64,7 @@ public class PasswordValidatorTest {
     public void shouldThrowError_passwordNotContainsUppercase() {
         //given when then
         assertThatThrownBy(() -> {
-            new Password(new char[]{'p', 'a', 's', 's', 'w', 'o', 'd', '1', '2', '3'});
+            Password.of(new char[]{'p', 'a', 's', 's', 'w', 'o', 'd', '1', '2', '3'});
         }).isInstanceOf(PasswordNotContainsUpperAndLowercaseException.class);
     }
 
@@ -72,7 +72,7 @@ public class PasswordValidatorTest {
     public void shouldThrowError_passwordNotContainsLowercase() {
         //given when then
         assertThatThrownBy(() -> {
-            new Password(new char[]{'P', 'A', 'S', 'S', 'W', 'O', 'D', '1', '2', '3'});
+            Password.of(new char[]{'P', 'A', 'S', 'S', 'W', 'O', 'D', '1', '2', '3'});
         }).isInstanceOf(PasswordNotContainsUpperAndLowercaseException.class);
     }
 

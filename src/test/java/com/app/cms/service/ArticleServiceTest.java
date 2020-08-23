@@ -28,7 +28,7 @@ public class ArticleServiceTest {
     @Test
     public void shouldCreateArticle() {
         //given
-        final var articleToSave = Article.builder().title(new Title("test title")).content(new Content("test content")).build();
+        final var articleToSave = Article.builder().title(Title.of("test title")).content(Content.of("test content")).build();
         given(articleRepository.save(any(Article.class))).willReturn(articleToSave.toBuilder().id(-1L).build());
 
         //when
@@ -39,9 +39,10 @@ public class ArticleServiceTest {
         then(savedArticle.getId()).isEqualTo(-1L);
     }
 
+    @Test
     public void shouldUpdatePartially() {
         //given
-           final var articleToSave = Article.builder().title(new Title("test title")).content(new Content("test content")).build();
+        final var articleToSave = Article.builder().title(Title.of("test title")).content(Content.of("test content")).build();
         //     given(articleRepository.save(any(Article.class))).willReturn(articleToSave.toBuilder().id(-1L).build());
 
 /*        Map<String, Object> valuesToUpdate = new HashMap<>();
@@ -49,10 +50,7 @@ public class ArticleServiceTest {
         valuesToUpdate.put("content", "edited content");*/
 
         //when
-        articleService.updatePartially(-1L, articleToSave);
-
-
-
+        //     articleService.updatePartially(-1L, articleToSave);
 
 
         //then

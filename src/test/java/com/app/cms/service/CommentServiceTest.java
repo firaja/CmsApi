@@ -33,7 +33,7 @@ public class CommentServiceTest {
     @Test
     public void shouldCreateComment() {
         //given
-        final var commentToSave = Comment.builder().content(new Content("content")).build();
+        final var commentToSave = Comment.builder().content(Content.of("content")).build();
         given(commentRepository.save(any(Comment.class))).willReturn(commentToSave.toBuilder().id(-1L).build());
 
         //when
