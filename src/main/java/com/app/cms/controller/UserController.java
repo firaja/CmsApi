@@ -49,6 +49,8 @@ public class UserController {
         userService.delete(userId);
     }
 
+    // TODO patch options cache? pagination
+
 
 }
 

@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class QueryBuilder {
-    private StringBuilder queryText = new StringBuilder();
-    private Map<String, Object> params = new HashMap<>();
+    private final StringBuilder queryText = new StringBuilder();
+    private final Map<String, Object> params = new HashMap<>();
 
     public QueryBuilder(String tableName) {
         queryText.append("update ").append(tableName).append(" set ");

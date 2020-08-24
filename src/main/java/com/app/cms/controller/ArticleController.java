@@ -84,4 +84,6 @@ public class ArticleController {
         return ResponseEntity.ok().allow(HttpMethod.GET, HttpMethod.DELETE, HttpMethod.PUT, HttpMethod.PATCH, HttpMethod.OPTIONS).build();
     }
 
+    // TODO pagination
+
 }

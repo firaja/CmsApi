@@ -10,10 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryMethods {
     boolean existsByLoginAndIdNot(String login, Long id);
-
     boolean existsByLogin(String login);
-
-    char[] getPassById(Long id);
 
     @Modifying
     @Query("update User u set u.password = :password where u.id = :id")

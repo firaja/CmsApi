@@ -16,7 +16,16 @@ public class ArticleRepositoryMethodsImpl implements ArticleRepositoryMethods {
 
     @Override
     public void updatePartially(long articleId, Map<String, Object> changedValues) {
+        ifExistsRenameUserToUser_id(changedValues);
+
         new QueryBuilder("Article").addParameters(changedValues).whereId(articleId).runQuery(entityManager);
+    }
+
+    private void ifExistsRenameUserToUser_id(Map<String, Object> changedValues) {
+        if (changedValues.containsKey("user")) {
+            Object obj = changedValues.remove("user");
+            changedValues.put("user_id", obj);
+        }
     }
 
 }

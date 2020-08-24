@@ -61,7 +61,7 @@ public final class Password {
                 lowercaseCounter++;
         }
 
-        return uppercaseCounter > 0 && lowercaseCounter > 0 ? true : false;
+        return uppercaseCounter > 0 && lowercaseCounter > 0;
     }
 
     private static char[] hashPass(char[] password) {

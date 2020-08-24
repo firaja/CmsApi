@@ -9,8 +9,6 @@ import com.app.cms.entity.valueobjects.article.Title;
 import com.app.cms.repository.CategoryRepository;
 import com.app.cms.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.MoreObjects;
-import org.apache.commons.lang3.ObjectUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -63,11 +61,6 @@ public class ArticleConverter implements ObjectConverter<Article, ArticleDto> {
     @Override
     public Article toEntity(ArticleDto articleDto) {
         return toEntity(articleDto, ConvertType.ALL_FIELDS_MUST_BE_SET);
-    }
-
-    enum ConvertType {
-        ALL_FIELDS_MUST_BE_SET,
-        PART_OF_FIELDS_CAN_BE_SET;
     }
 
     private Article toEntity(ArticleDto articleDto, ConvertType convertType) {

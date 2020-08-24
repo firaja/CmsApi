@@ -51,4 +51,6 @@ public class CategoryController {
         categoryService.delete(categoryId);
     }
 
+    // TODO options cache? pagination
+
 }

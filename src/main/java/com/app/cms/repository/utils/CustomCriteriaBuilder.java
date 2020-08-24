@@ -6,10 +6,10 @@ import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 
 public class CustomCriteriaBuilder {
-    private CriteriaBuilder builder;
-    private Root<Object> root;
-    private CriteriaUpdate<Object> criteria;
-    private EntityManager entityManager;
+    private final CriteriaBuilder builder;
+    private final Root<Object> root;
+    private final CriteriaUpdate<Object> criteria;
+    private final EntityManager entityManager;
 
     public CustomCriteriaBuilder(Class clazz, EntityManager entityManager) {
         builder = entityManager.getCriteriaBuilder();
