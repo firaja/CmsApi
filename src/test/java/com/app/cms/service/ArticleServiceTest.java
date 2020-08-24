@@ -4,6 +4,7 @@ import com.app.cms.entity.Article;
 import com.app.cms.entity.valueobjects.article.Content;
 import com.app.cms.entity.valueobjects.article.Title;
 import com.app.cms.repository.ArticleRepository;
+import com.app.cms.repository.CommentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,6 +15,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -21,6 +24,9 @@ public class ArticleServiceTest {
 
     @Mock
     private ArticleRepository articleRepository;
+
+    @Mock
+    private CommentRepository commentRepository;
 
     @InjectMocks
     private ArticleService articleService;
@@ -40,22 +46,20 @@ public class ArticleServiceTest {
     }
 
     @Test
-    public void shouldUpdatePartially() {
-        //given
-        final var articleToSave = Article.builder().title(Title.of("test title")).content(Content.of("test content")).build();
-        //     given(articleRepository.save(any(Article.class))).willReturn(articleToSave.toBuilder().id(-1L).build());
-
-/*        Map<String, Object> valuesToUpdate = new HashMap<>();
-        valuesToUpdate.put("title", "edited title");
-        valuesToUpdate.put("content", "edited content");*/
-
+    public void shouldDeleteArticle() {
         //when
-        //     articleService.updatePartially(-1L, articleToSave);
-
+        articleService.delete(-1L);
 
         //then
-        //  then(savedArticle.getId()).isNotNull();
-        //   then(savedArticle.getId()).isEqualTo(-1L);
+        verify(articleRepository, times(1)).deleteById(any(Long.class));
     }
 
+    @Test
+    public void shouldUpdateArticle() {
+        //when
+        articleService.update(Article.builder().id(-1L).build());
+
+        //then
+        verify(articleRepository, times(1)).save(any());
+    }
 }

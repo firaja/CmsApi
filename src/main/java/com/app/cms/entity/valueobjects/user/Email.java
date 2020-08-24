@@ -24,7 +24,7 @@ public class Email {
         if (!EmailValidator.getInstance().isValid(value))
             throw new InvalidEmailException("Email is not valid");
 
-        return Email.of(value);
+        return new Email(value);
     }
 
 

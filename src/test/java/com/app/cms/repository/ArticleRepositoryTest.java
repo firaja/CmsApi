@@ -19,30 +19,50 @@ public class ArticleRepositoryTest {
     private ArticleRepository articleRepository;
 
     @Test
-    public void shouldUpdatePartially() {
+    public void shouldUpdatePartially_titleAndContent() {
         //given
-/*        final var articleToSave = Article.builder()
-                .title(new Title("updated title1"))
-                .content(new Content("updated content1"))
-                .user(User.builder().id(-2L).build())
-                .category(Category.builder().id(-2L).build())
-           //     .rating(new Rating(2.3F, 6))
-                .build();*/
-
         Map<String, Object> changedValues = new HashMap<>();
-        changedValues.put("title", "this is new title");
+        changedValues.put("title", "this is new title45452");
+        changedValues.put("content", "updated content145676");
 
         //when
-        //    articleRepository.updatePartially(-1L, articleToSave);
         articleRepository.updatePartially(-1L, changedValues);
 
         //then
         var savedArticle = articleRepository.getOne(-1L);
-        then(savedArticle.getTitle().getValue()).isEqualTo("updated title1");
-        then(savedArticle.getContent().getValue()).isEqualTo("updated content1");
-        then(savedArticle.getUser().getId()).isEqualTo(-2L);
-        then(savedArticle.getCategory().getId()).isEqualTo(-2L);
-        then(savedArticle.getRating().getValue()).isEqualTo(2.3F);
-        then(savedArticle.getRating().getCount()).isEqualTo(6);
+        then(savedArticle.getTitle().getValue()).isEqualTo("this is new title45452");
+        then(savedArticle.getContent().getValue()).isEqualTo("updated content145676");
+    }
+
+    @Test
+    public void shouldUpdatePartially_userAndCategory() {
+        //given
+        Map<String, Object> changedValues = new HashMap<>();
+        changedValues.put("user", -2L);
+        changedValues.put("category", -2L);
+
+        //when
+        articleRepository.updatePartially(-1L, changedValues);
+
+        //then
+        var savedArticle = articleRepository.getOne(-1L);
+        then(savedArticle.getUser().getId()).isEqualTo(-2);
+        then(savedArticle.getCategory().getId()).isEqualTo(-2);
+    }
+
+    @Test
+    public void shouldUpdatePartially_ratingValueAndRatingCount() {
+        //given
+        Map<String, Object> changedValues = new HashMap<>();
+        changedValues.put("ratingValue", 4.7F);
+        changedValues.put("ratingCount", 7);
+
+        //when
+        articleRepository.updatePartially(-1L, changedValues);
+
+        //then
+        var savedArticle = articleRepository.getOne(-1L);
+        then(savedArticle.getRating().getValue()).isEqualTo(4.7F);
+        then(savedArticle.getRating().getCount()).isEqualTo(7);
     }
 }

@@ -18,7 +18,6 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-
     @Test
     public void shouldUpdateUserEmail() {
         //given

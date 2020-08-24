@@ -30,10 +30,7 @@ public class UserValidator implements ValidatorOnSave<User>, ValidatorOnDelete {
     @Override
     public void validateOnDelete(Long userId) {
         if (articleRepository.existsByUserId(userId)) {
-            var validationError = new ValidationError()
-                    .appendDetail("article", "User has articles, delete them first");
-
-            throw new ObjectHaveReferencedObjects(validationError.toString());
+            throw new ObjectHaveReferencedObjects("User has articles, delete them first");
         }
     }
 
@@ -50,9 +47,6 @@ public class UserValidator implements ValidatorOnSave<User>, ValidatorOnDelete {
     }
 
     private void throwLoginIsInUseException() {
-        var validationError = new ValidationError()
-                .appendDetail("login", "User login is already in use");
-
-        throw new LoginIsInUseException(validationError.toString());
+        throw new LoginIsInUseException("User login is already in use");
     }
 }

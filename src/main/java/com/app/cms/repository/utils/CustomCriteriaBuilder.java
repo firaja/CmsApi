@@ -1,7 +1,6 @@
-package com.app.cms.repository.impl;
+package com.app.cms.repository.utils;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
@@ -44,8 +43,5 @@ public class CustomCriteriaBuilder {
         entityManager.createQuery(criteria).executeUpdate();
     }
 
-    public void execute2() {
-        Query query = entityManager.createQuery(criteria);
-    }
 
 }

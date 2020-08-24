@@ -30,30 +30,19 @@ public class CategoryValidator implements ValidatorOnSave<Category>, ValidatorOn
     @Override
     public void validateOnDelete(Long categoryId) {
         if (articleRepository.existsByCategoryId(categoryId)) {
-            var validationError = new ValidationError()
-                    .appendDetail("name", "Category contains articles");
-
-            throw new ObjectHaveReferencedObjects(validationError.toString());
+            throw new ObjectHaveReferencedObjects("Category contains articles");
         }
     }
 
     private void validationOnUpdate(Category category) {
         if (categoryRepository.existsByNameAndIdNot(category.getName().getValue(), category.getId())) {
-            throwNameIsInUseException();
+            throw new NameIsInUseException("Category name is already in use");
         }
     }
 
     private void validationOnCreation(Category category) {
         if (categoryRepository.existsByName(category.getName().getValue())) {
-            throwNameIsInUseException();
+            throw new NameIsInUseException("Category name is already in use");
         }
     }
-
-    private void throwNameIsInUseException() {
-        var validationError = new ValidationError()
-                .appendDetail("name", "Category name is already in use");
-
-        throw new NameIsInUseException(validationError.toString());
-    }
-
 }

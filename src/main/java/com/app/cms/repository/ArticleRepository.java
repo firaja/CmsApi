@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ArticleRepository extends JpaRepository<Article, Long>, ArticleRepositoryConcreteMethods {
+public interface ArticleRepository extends JpaRepository<Article, Long>, ArticleRepositoryMethods {
     boolean existsByCategoryId(Long categoryId);
 
     boolean existsByUserId(Long userId);

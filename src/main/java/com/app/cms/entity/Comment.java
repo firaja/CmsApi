@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
 @Data
 @Builder(toBuilder = true)
@@ -30,13 +29,12 @@ public class Comment {
 
     private Author author;
 
-    @Past
     @NotNull
     @Column(updatable = false)
     private CreationDate creationDate;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "article", nullable = false)
     private Article article;
 
 }

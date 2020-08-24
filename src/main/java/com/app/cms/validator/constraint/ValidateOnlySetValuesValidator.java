@@ -15,7 +15,6 @@ public class ValidateOnlySetValuesValidator implements ConstraintValidator<Valid
     public boolean isValid(Object candidate, ConstraintValidatorContext arg1) {
         var user = (UserPartiallyUpdateDto) candidate;
 
-
         return user.getPassword().equals(user.getPasswordConfirm());
     }
 }

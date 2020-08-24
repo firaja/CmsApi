@@ -25,7 +25,7 @@ public final class Login {
         if (StringUtils.isBlank(value) || value.length() < 3 && value.length() > 20)
             throw new InvalidLoginException("Login should be between 3 and 20 letters");
 
-        return Login.of(value);
+        return new Login(value);
     }
 
 }

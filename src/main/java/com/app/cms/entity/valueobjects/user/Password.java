@@ -28,7 +28,7 @@ public final class Password {
     public static Password of(char[] value) {
         validate(value);
 
-        return Password.of(hashPass(value));
+        return new Password(hashPass(value));
     }
 
     public static Password of(char[] password, char[] passwordConfirm) {

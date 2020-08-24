@@ -97,8 +97,6 @@ public class UserValidatorTest {
     public void shouldValidatePartiallyUpdatedUser() {
         //given
         var user = User.builder().id(-1L).email(Email.of("email@email.com")).build();
-        //  given(userRepository.existsByLogin(any(String.class))).willReturn(false);
-
         //when then
         userValidator.validateOnSave(user);
     }

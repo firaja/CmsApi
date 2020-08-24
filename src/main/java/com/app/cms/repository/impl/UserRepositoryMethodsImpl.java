@@ -1,7 +1,8 @@
 package com.app.cms.repository.impl;
 
 import com.app.cms.entity.User;
-import com.app.cms.repository.UserRepositoryConcreteMethods;
+import com.app.cms.repository.UserRepositoryMethods;
+import com.app.cms.repository.utils.CustomCriteriaBuilder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -9,7 +10,7 @@ import javax.persistence.PersistenceContext;
 
 
 @Repository
-public class UserRepositoryConcreteMethodsImpl implements UserRepositoryConcreteMethods {
+public class UserRepositoryMethodsImpl implements UserRepositoryMethods {
 
     @PersistenceContext
     EntityManager entityManager;

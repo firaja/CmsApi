@@ -29,21 +29,24 @@ public class Article {
     @Embedded
     private Title title;
 
+    @NotNull
     @Embedded
     private Content content;
 
+    @NotNull
     @Column(updatable = false)
     private Date creationDate;
 
+    @NotNull
     @Embedded
     private Rating rating;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category", nullable = false)
     private Category category;
 
 }

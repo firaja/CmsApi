@@ -3,8 +3,10 @@ package com.app.cms.service;
 import com.app.cms.dto.converter.ArticleConverter;
 import com.app.cms.entity.Article;
 import com.app.cms.repository.ArticleRepository;
+import com.app.cms.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Map;
 
@@ -15,10 +17,12 @@ public class ArticleService {
 
     private final ArticleConverter articleConverter;
 
+    private final CommentRepository commentRepository;
 
-    public ArticleService(ArticleRepository articleRepository, ArticleConverter articleConverter) {
+    public ArticleService(ArticleRepository articleRepository, ArticleConverter articleConverter, CommentRepository commentRepository) {
         this.articleRepository = articleRepository;
         this.articleConverter = articleConverter;
+        this.commentRepository = commentRepository;
     }
 
     public Article save(Article article) {
@@ -35,24 +39,13 @@ public class ArticleService {
     }
 
     public void updatePartially(Long articleId, Map<String, Object> changedValues) {
-        //     Article articleFromDb = articleRepository.getOne(articleId);
-
         articleConverter.toEntity(changedValues);
-
         articleRepository.updatePartially(articleId, changedValues);
+    }
 
-
-        //    articleRepository.save(articleFromDb);
-    }/*   public void updatePartially(Long articleId, Article articleWithChanges) {
-        Article articleFromDb = articleRepository.getOne(articleId);
-
-        articleRepository.updatePartially(articleId, articleWithChanges);
-
-
-    //    articleRepository.save(articleFromDb);
-    }*/
-
+    @Transactional
     public void delete(Long articleId) {
+        commentRepository.deleteByArticleId(articleId);
         articleRepository.deleteById(articleId);
     }
 

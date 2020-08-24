@@ -3,6 +3,6 @@ package com.app.cms.repository;
 import com.app.cms.entity.User;
 
 
-public interface UserRepositoryConcreteMethods {
+public interface UserRepositoryMethods {
     void updatePartially(long userId, User user);
 }

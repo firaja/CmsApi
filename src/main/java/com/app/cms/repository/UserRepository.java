@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryConcreteMethods {
+public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryMethods {
     boolean existsByLoginAndIdNot(String login, Long id);
 
     boolean existsByLogin(String login);

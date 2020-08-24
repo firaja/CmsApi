@@ -69,7 +69,6 @@ public class UserServiceTest {
     public void shouldUpdateUserPartially() {
         //given
         var user = User.builder().id(-1L).email(Email.of("mail@mail.com")).build();
-
         given(userConverter.toEntity(any(Map.class))).willReturn(user);
         Map<String, Object> userValues = new HashMap<>();
 
