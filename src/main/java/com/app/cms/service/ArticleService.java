@@ -4,6 +4,11 @@ import com.app.cms.dto.converter.ArticleConverter;
 import com.app.cms.entity.Article;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.repository.CommentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -47,6 +52,23 @@ public class ArticleService {
     public void delete(Long articleId) {
         commentRepository.deleteByArticleId(articleId);
         articleRepository.deleteById(articleId);
+    }
+
+    public Page<Article> get(Specification<Article> spec, Pageable pageable) {
+        return articleRepository.findAll(spec,pageable);
+    }
+
+    public PagingResponse get(Specification<Article> spec, HttpHeaders headers, Sort sort) {
+        if (isRequestPaged(headers)) {
+            return get(spec, buildPageRequest(headers, sort));
+        } else {
+            final List<Car> entities = get(spec, sort);
+            return new PagingResponse((long) entities.size(), 0L, 0L, 0L, 0L, entities);
+        }
+    }
+
+    public Page<Article> get() {
+        articleRepository.findAll(pageable);
     }
 
 }

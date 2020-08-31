@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -13,7 +14,7 @@ import java.util.Date;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleDto extends RepresentationModel<ArticleDto> {
+public class ArticleDto extends RepresentationModel<ArticleDto> implements Serializable {
 
     private Long id;
 
