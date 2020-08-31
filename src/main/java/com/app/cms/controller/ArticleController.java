@@ -3,31 +3,29 @@ package com.app.cms.controller;
 import com.app.cms.dto.ArticleDto;
 import com.app.cms.dto.converter.ArticleConverter;
 import com.app.cms.entity.Article;
-import com.app.cms.error.type.PaginationException;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.service.ArticleService;
 import net.kaczmarzyk.spring.data.jpa.domain.Between;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
-import net.kaczmarzyk.spring.data.jpa.domain.In;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
-import org.springframework.http.*;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -39,13 +37,11 @@ public class ArticleController {
     private final ArticleService articleService;
     private final ArticleRepository articleRepository;
     private final ArticleConverter articleConverter;
-    private final ApplicationEventPublisher eventPublisher;
 
-    public ArticleController(ArticleService articleService, ArticleRepository articleRepository, ArticleConverter articleConverter, ApplicationEventPublisher eventPublisher) {
+    public ArticleController(ArticleService articleService, ArticleRepository articleRepository, ArticleConverter articleConverter) {
         this.articleService = articleService;
         this.articleRepository = articleRepository;
         this.articleConverter = articleConverter;
-        this.eventPublisher = eventPublisher;
     }
 
     @PostMapping
@@ -62,8 +58,8 @@ public class ArticleController {
                 .orElseThrow(() -> new EntityNotFoundException("Article not found"));
     }
 
-    @GetMapping
-    @Cacheable("articles")
+    /* @GetMapping
+     @Cacheable("articles") */
     public CollectionModel<ArticleDto> getAllArticles() {
         Link link = linkTo(ArticleController.class).withSelfRel();
         return CollectionModel.of(articleRepository.findAll().stream().map(articleConverter::toDto).collect(Collectors.toList()), link);
@@ -101,17 +97,12 @@ public class ArticleController {
 
     // TODO pagination
 
-    @GetMapping(params = { "page", "size" })
-    public Page<ArticleDto> pagination(@RequestParam("page") int page, @RequestParam("size") int size, UriComponentsBuilder uriBuilder,
-                                    HttpServletResponse response) {
+/*    @GetMapping(params = { "page", "size" })
+    public Page<ArticleDto> pagination2(@RequestParam("page") int page, @RequestParam("size") int size, UriComponentsBuilder uriBuilder,
+                                       HttpServletResponse response) {
         Pageable pageable = PageRequest.of(page, size);
         Page<ArticleDto> articleDtos = articleRepository.findAll(pageable).map(articleConverter::toDto);
 
-      //  Page<ArticleDto> artDtos = articleRepository.findAll(pageable).map(articleConverter::toDto);
-   //     articleRepository.findAll(pageable);
-
-     //   Page<ArticleDto> resultPage = new PageImpl<>(articleDtos);
- //       Page<ArticleDto> resultPage = articleRepository.findAll(pageable).
         if (page > articleDtos.getTotalPages()) {
             throw new PaginationException();
         }
@@ -119,27 +110,24 @@ public class ArticleController {
                 Article.class, uriBuilder, response, page, articleDtos.getTotalPages(), size));
 
         return articleDtos;
-    }
+    }*/
 
-    @Transactional
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<ArticleDto>> get(
-            @And({
-                    @Spec(path = "manufacturer", params = "manufacturer", spec = Like.class),
-                    @Spec(path = "model", params = "model", spec = Like.class),
-                    @Spec(path = "country", params = "country", spec = In.class),
-                    @Spec(path = "type", params = "type", spec = Like.class),
-                    @Spec(path = "createDate", params = "createDate", spec = Equal.class),
-                    @Spec(path = "createDate", params = {"createDateGt", "createDateLt"}, spec = Between.class)
-            }) Specification<ArticleDto> spec,
-            Sort sort,
-            @RequestHeader HttpHeaders headers)
-    {
-        articleRepository.findAll
-        Page<ArticleDto> articleDtos = articleRepository.findAll(pageable).map(articleConverter::toDto);
-        final PagingResponse response = carService.get(spec, headers, sort);
-        return new ResponseEntity<>(response.getElements(), returnHttpHeaders(response), HttpStatus.OK);
+    @GetMapping
+    //  @Cacheable("articles")
+    public Page<ArticleDto> get(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+                                @And({
+                                        @Spec(path = "title.value", params = "title", spec = Like.class),
+                                        @Spec(path = "content.value", params = "content", spec = Like.class),
+                                        @Spec(path = "category.id", params = "category", spec = Equal.class),
+                                        @Spec(path = "rating.value", params = "ratingValue", spec = Equal.class),
+                                        @Spec(path = "rating.count", params = "ratingCount", spec = Equal.class),
+                                        @Spec(path = "user.id", params = "user", spec = Equal.class),
+                                        @Spec(path = "creationDate", params = {"createDateGt", "createDateLt"}, spec = Between.class)
+                                }) Specification<Article> specification,
+                                Sort sort) {
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return articleService.get(specification, pageable).map(articleConverter::toDto);
     }
 
 }

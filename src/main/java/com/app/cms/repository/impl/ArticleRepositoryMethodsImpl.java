@@ -28,5 +28,10 @@ public class ArticleRepositoryMethodsImpl implements ArticleRepositoryMethods {
         }
     }
 
+    //  public List<Article> findByPredicates(PageRequest pageable, com.querydsl.core.types.Predicate... predicates) {
+    //  QArticle article =
+    //    entityManager.get
+    //   }
+
 }
 

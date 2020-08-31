@@ -65,4 +65,11 @@ public class ArticleRepositoryTest {
         then(savedArticle.getRating().getValue()).isEqualTo(4.7F);
         then(savedArticle.getRating().getCount()).isEqualTo(7);
     }
+
+    @Test
+    public void testCriteria() {
+        //given
+        //   CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        //    CriteriaQuery<User> query = builder.createQuery(User.class);
+    }
 }

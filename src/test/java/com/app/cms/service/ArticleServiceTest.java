@@ -62,4 +62,14 @@ public class ArticleServiceTest {
         //then
         verify(articleRepository, times(1)).save(any());
     }
+
+    @Test
+    public void shouldReturnArticleByCriteria() {
+        //given
+
+
+        //when
+
+        //then
+    }
 }
