@@ -4,6 +4,7 @@ import com.app.cms.dto.converter.ArticleConverter;
 import com.app.cms.entity.Article;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.repository.CommentRepository;
+import com.app.cms.specification.ArticleSpecification2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -51,6 +52,12 @@ public class ArticleService {
         commentRepository.deleteByArticleId(articleId);
         articleRepository.deleteById(articleId);
     }
+
+
+    public Page<Article> get2(ArticleSpecification2 articleSpecification, Pageable pageable)
+        {
+            return articleRepository.findAll(articleSpecification, pageable);
+        }
 
     public Page<Article> get(Specification<Article> spec, Pageable pageable) {
         return articleRepository.findAll(spec, pageable);
