@@ -1,10 +1,14 @@
 package com.app.cms.dto.converter;
 
+import com.app.cms.controller.CommentController;
 import com.app.cms.dto.CommentDto;
 import com.app.cms.entity.Comment;
 import com.app.cms.repository.ArticleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class CommentConverter implements ObjectConverter<Comment, CommentDto> {
@@ -19,7 +23,16 @@ public class CommentConverter implements ObjectConverter<Comment, CommentDto> {
 
     @Override
     public CommentDto toDto(Comment comment) {
-        return modelMapper.map(comment, CommentDto.class);
+        CommentDto commentDto = modelMapper.map(comment, CommentDto.class);
+        commentDto.setContent(comment.getContent().getValue());
+        commentDto.setAuthor(comment.getAuthor().getValue());
+        commentDto.setCreationDate(comment.getCreationDate().getValue());
+
+        commentDto.add(
+                linkTo(methodOn(CommentController.class).get(commentDto.getId())).withSelfRel(),
+                linkTo(methodOn(CommentController.class).getAll()).withRel("comments"));
+
+        return commentDto;
     }
 
     @Override

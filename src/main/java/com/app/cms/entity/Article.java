@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @Data
@@ -36,7 +36,7 @@ public class Article implements Serializable {
 
     @NotNull
     @Column(updatable = false)
-    private Date creationDate;
+    private LocalDate creationDate;
 
     @NotNull
     @Embedded

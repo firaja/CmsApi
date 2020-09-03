@@ -19,7 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,9 +54,9 @@ public class ArticleConverterTest {
         articleDto.setTitle(null);
 
         //when
-        assertThatThrownBy(() -> {
-            articleConverter.toEntity(articleDto);
-        }).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Title");
+        assertThatThrownBy(() ->
+                articleConverter.toEntity(articleDto))
+                .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Title");
     }
 
     @Test
@@ -66,9 +66,9 @@ public class ArticleConverterTest {
         articleDto.setContent(null);
 
         //when
-        assertThatThrownBy(() -> {
-            articleConverter.toEntity(articleDto);
-        }).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Content");
+        assertThatThrownBy(() ->
+                articleConverter.toEntity(articleDto)
+        ).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("Content");
     }
 
     @Test
@@ -78,9 +78,9 @@ public class ArticleConverterTest {
         articleDto.setRatingCount(null);
 
         //when
-        assertThatThrownBy(() -> {
-            articleConverter.toEntity(articleDto);
-        }).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("rating count");
+        assertThatThrownBy(() ->
+                articleConverter.toEntity(articleDto))
+                .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("rating count");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class ArticleConverterTest {
                 .rating(Rating.of(ratingValue, ratingCount))
                 .user(User.builder().id(userId).build())
                 .category(Category.builder().id(categoryId).build())
-                .creationDate(new Date())
+                .creationDate(LocalDate.now())
                 .build();
 
         //when
@@ -232,7 +232,7 @@ public class ArticleConverterTest {
                 .content("content test")
                 .categoryId(-20L)
                 .userId(-30L)
-                .creationDate(new Date())
+                .creationDate(LocalDate.now())
                 .ratingValue(4.3F)
                 .ratingCount(5)
                 .build();

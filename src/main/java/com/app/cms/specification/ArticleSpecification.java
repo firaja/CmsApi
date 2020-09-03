@@ -17,7 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
         @Spec(path = "user.id", params = "user", spec = Equal.class),
         @Spec(path = "creationDate", params = {"createDateGt", "createDateLt"}, spec = Between.class)
 })
-public interface ArticleSpecification2 extends Specification<Article> {
+public interface ArticleSpecification extends Specification<Article> {
 }
 
 

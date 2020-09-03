@@ -47,7 +47,7 @@ public class ArticleConverter implements ObjectConverter<Article, ArticleDto> {
 
         articleDto.add(
                 linkTo(methodOn(ArticleController.class).getArticleById(article.getId())).withSelfRel(),
-                linkTo(methodOn(ArticleController.class).getAllArticles()).withRel("articles"));
+                linkTo(methodOn(ArticleController.class).getAllArticles(0, 10, null, null)).withRel("articles"));
 
         return articleDto;
     }
