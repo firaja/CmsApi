@@ -7,7 +7,7 @@ import com.app.cms.dto.converter.CommentConverter;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.repository.CommentRepository;
 import com.app.cms.service.ArticleService;
-import com.app.cms.specification.ArticleSpecification;
+import com.app.cms.specification.article.ArticleSpecification;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -69,11 +70,10 @@ public class ArticleController {
 
     @GetMapping
     @Cacheable("articles")
-    public Page<ArticleDto> getAllArticles(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+    public Page<ArticleDto> getArticles(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
                                            ArticleSpecification specification, Sort sort) {
         Pageable pageable = PageRequest.of(page, size, sort);
-
         return articleService.get(specification, pageable).map(articleConverter::toDto);
     }
 

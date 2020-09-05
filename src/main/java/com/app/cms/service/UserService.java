@@ -1,10 +1,14 @@
 package com.app.cms.service;
 
 import com.app.cms.dto.converter.UserConverter;
+import com.app.cms.entity.Article;
 import com.app.cms.entity.User;
 import com.app.cms.repository.UserRepository;
 
 import com.app.cms.validator.UserValidator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -40,5 +44,10 @@ public class UserService {
     public void delete(Long userId) {
         userValidator.validateOnDelete(userId);
         userRepository.deleteById(userId);
+    }
+
+
+    public Page<User> get(Specification<User> spec, Pageable pageable) {
+        return userRepository.findAll(spec, pageable);
     }
 }

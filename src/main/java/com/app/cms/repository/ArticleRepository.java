@@ -7,7 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ArticleRepository extends JpaRepository<Article, Long>, JpaSpecificationExecutor<Article>, PagingAndSortingRepository<Article, Long>, ArticleRepositoryMethods {
+public interface ArticleRepository extends JpaRepository<Article, Long>, JpaSpecificationExecutor<Article>, ArticleRepositoryMethods {
     boolean existsByCategoryId(Long categoryId);
 
     boolean existsByUserId(Long userId);

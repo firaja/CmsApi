@@ -1,8 +1,8 @@
 package com.app.cms.repository;
 
 import com.app.cms.entity.Article;
-import com.app.cms.specification.ArticleWithCreationDate;
-import com.app.cms.specification.ArticleWithTitle;
+import com.app.cms.specification.article.ArticleWithCreationDate;
+import com.app.cms.specification.article.ArticleWithTitle;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

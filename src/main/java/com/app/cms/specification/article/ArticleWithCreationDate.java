@@ -1,4 +1,4 @@
-package com.app.cms.specification;
+package com.app.cms.specification.article;
 
 import com.app.cms.entity.Article;
 
@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class ArticleWithCreationDate implements ArticleSpecification {
     private LocalDate creationFrom;
@@ -19,6 +20,9 @@ public class ArticleWithCreationDate implements ArticleSpecification {
 
     @Override
     public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        Objects.requireNonNull(creationFrom);
+        Objects.requireNonNull(creationTo);
+
         return criteriaBuilder.between(root.get("creationDate"), this.creationFrom, this.creationTo);
     }
 }

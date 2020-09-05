@@ -53,7 +53,6 @@ public class ArticleService {
         articleRepository.deleteById(articleId);
     }
 
-
     public Page<Article> get(Specification<Article> spec, Pageable pageable) {
         return articleRepository.findAll(spec, pageable);
     }

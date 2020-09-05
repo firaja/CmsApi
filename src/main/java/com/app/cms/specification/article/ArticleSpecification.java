@@ -1,4 +1,4 @@
-package com.app.cms.specification;
+package com.app.cms.specification.article;
 
 import com.app.cms.entity.Article;
 import net.kaczmarzyk.spring.data.jpa.domain.Between;
