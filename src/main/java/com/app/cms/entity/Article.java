@@ -1,8 +1,8 @@
 package com.app.cms.entity;
 
-import com.app.cms.entity.valueobjects.article.Content;
-import com.app.cms.entity.valueobjects.article.Rating;
-import com.app.cms.entity.valueobjects.article.Title;
+import com.app.cms.valueobject.article.Content;
+import com.app.cms.valueobject.article.Rating;
+import com.app.cms.valueobject.article.Title;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

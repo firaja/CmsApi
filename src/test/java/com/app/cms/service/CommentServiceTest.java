@@ -1,9 +1,9 @@
 package com.app.cms.service;
 
 import com.app.cms.entity.Comment;
-import com.app.cms.entity.valueobjects.comment.Content;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.repository.CommentRepository;
+import com.app.cms.valueobject.comment.Content;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

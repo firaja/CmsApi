@@ -1,12 +1,12 @@
 package com.app.cms.validator;
 
 import com.app.cms.entity.User;
-import com.app.cms.entity.valueobjects.user.Email;
-import com.app.cms.entity.valueobjects.user.Login;
 import com.app.cms.error.type.LoginIsInUseException;
 import com.app.cms.error.type.ObjectHaveReferencedObjects;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.repository.UserRepository;
+import com.app.cms.valueobject.user.Email;
+import com.app.cms.valueobject.user.Login;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,7 +35,7 @@ public class UserValidatorTest {
     public void shouldThrowError_WhenCreateNewUser_UserWithSameLoginExists() {
         //given
         var user = User.builder().login(Login.of("login")).build();
-        given(userRepository.existsByLogin(any(String.class))).willReturn(true);
+        given(userRepository.existsByLogin(any(Login.class))).willReturn(true);
 
         //when, then
         assertThatThrownBy(() -> {
@@ -47,7 +47,7 @@ public class UserValidatorTest {
     public void shouldThrowError_WhenUpdateUser_UserWithSameLoginExists() {
         //given
         var user = User.builder().id(-1L).login(Login.of("login")).build();
-        given(userRepository.existsByLoginAndIdNot(any(String.class), any(Long.class))).willReturn(true);
+        given(userRepository.existsByLoginAndIdNot(any(Login.class), any(Long.class))).willReturn(true);
 
         //when, then
         assertThatThrownBy(() -> {
@@ -67,7 +67,7 @@ public class UserValidatorTest {
     @Test
     public void shouldValidateUserCorrect_WhenUpdateUser() {
         //given
-        given(userRepository.existsByLoginAndIdNot(any(String.class), any(Long.class))).willReturn(false);
+        given(userRepository.existsByLoginAndIdNot(any(Login.class), any(Long.class))).willReturn(false);
 
         //when, then
         userValidator.validateOnDelete(-1L);

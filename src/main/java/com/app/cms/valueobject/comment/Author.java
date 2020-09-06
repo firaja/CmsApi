@@ -1,4 +1,4 @@
-package com.app.cms.entity.valueobjects.comment;
+package com.app.cms.valueobject.comment;
 
 import lombok.*;
 import org.springframework.data.annotation.Immutable;
@@ -19,6 +19,10 @@ public class Author {
     private String value;
 
     public static Author of(String value) {
+
+        if (value == null)
+            throw new IllegalArgumentException("Author value must be set");
+
         if (value.length() > 150)
             throw new IllegalArgumentException("Maximal author length is 150 characters");
 

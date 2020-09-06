@@ -1,4 +1,4 @@
-package com.app.cms.entity.valueobjects.comment;
+package com.app.cms.valueobject.article;
 
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
@@ -14,15 +14,15 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 
 @Embeddable
-public class Content {
+public class Title {
 
-    @Column(name = "content")
+    @Column(name = "title")
     private String value;
 
-    public static Content of(String value) {
-        if (StringUtils.isBlank(value) || value.length() > 300)
-            throw new IllegalArgumentException("Content must be defined, max length is 300 characters");
+    public static Title of(String value) {
+        if (StringUtils.isBlank(value) || value.length() > 200)
+            throw new IllegalArgumentException("Title must be defined, max length 200 characters");
 
-        return new Content(value);
+        return new Title(value);
     }
 }

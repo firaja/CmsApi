@@ -1,4 +1,4 @@
-package com.app.cms.entity.valueobjects.user;
+package com.app.cms.valueobject.user;
 
 import com.app.cms.error.type.PasswordNotContainsUpperAndLowercaseException;
 import com.app.cms.error.type.PasswordTooLongException;
@@ -11,6 +11,7 @@ import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 import java.util.Arrays;
 
 @Immutable
@@ -20,16 +21,10 @@ import java.util.Arrays;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 
 @Embeddable
-public final class Password {
+public final class Password implements Serializable {
 
     @Column(name = "password")
     private char[] value;
-
-    public static Password of(char[] value) {
-        validate(value);
-
-        return new Password(hashPass(value));
-    }
 
     public static Password of(char[] password, char[] passwordConfirm) {
         if (!Arrays.equals(password, passwordConfirm))
@@ -70,5 +65,4 @@ public final class Password {
 
         return hash.getResult().toCharArray();
     }
-
 }

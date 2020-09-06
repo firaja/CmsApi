@@ -8,7 +8,6 @@ import com.app.cms.repository.CategoryRepository;
 import com.app.cms.service.ArticleService;
 import com.app.cms.service.CategoryService;
 import com.app.cms.specification.article.ArticleWithCategory;
-import com.app.cms.specification.article.ArticleWithUser;
 import com.app.cms.specification.category.CategorySpecification;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,7 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,6 +39,7 @@ public class CategoryController {
     }
 
     @GetMapping(value = "/{categoryId}")
+    @Cacheable(value = "categories", key = "#categoryId")
     public CategoryDto getCategoryById(@PathVariable Long categoryId) {
         return categoryConverter.toDto(categoryRepository.getOne(categoryId));
     }
@@ -53,11 +55,13 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @CacheEvict(value = "categories")
     public CategoryDto createCategory(@RequestBody CategoryDto categoryDto) {
         return categoryConverter.toDto(categoryService.save(categoryConverter.toEntity(categoryDto)));
     }
 
     @PutMapping
+    @CacheEvict(value = "categories", key = "#categoryDto.id")
     public CategoryDto updateCategory(@RequestBody CategoryDto categoryDto) {
         return categoryConverter.toDto(categoryService.save(categoryConverter.toEntity(categoryDto)));
     }
@@ -77,6 +81,14 @@ public class CategoryController {
         categoryService.delete(categoryId);
     }
 
-    // TODO options cache? pagination
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity collectionOptions() {
+        return ResponseEntity.ok().allow(HttpMethod.GET, HttpMethod.OPTIONS).build();
+    }
+
+    @RequestMapping(value = "/{categoryId}", method = RequestMethod.OPTIONS)
+    public ResponseEntity singularOptions() {
+        return ResponseEntity.ok().allow(HttpMethod.GET, HttpMethod.DELETE, HttpMethod.PUT, HttpMethod.OPTIONS).build();
+    }
 
 }

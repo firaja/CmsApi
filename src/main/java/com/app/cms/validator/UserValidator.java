@@ -35,13 +35,14 @@ public class UserValidator implements ValidatorOnSave<User>, ValidatorOnDelete {
     }
 
     private void validationOnUpdate(User user) {
-        if (user.getLogin() != null && userRepository.existsByLoginAndIdNot(user.getLogin().getValue(), user.getId())) {
+        if (user.getLogin() != null && userRepository.existsByLoginAndIdNot(user.getLogin(), user.getId())) {
             throwLoginIsInUseException();
         }
     }
 
     private void validationOnCreation(User user) {
-        if (userRepository.existsByLogin(user.getLogin().getValue())) {
+        //   if (userRepository.existsByLoginValue(user.getLogin().getValue())) {
+        if (userRepository.existsByLogin(user.getLogin())) {
             throwLoginIsInUseException();
         }
     }

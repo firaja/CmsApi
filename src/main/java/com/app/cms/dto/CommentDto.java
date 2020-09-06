@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder()
@@ -21,5 +21,5 @@ public class CommentDto extends RepresentationModel<CommentDto> {
 
     private Long articleId;
 
-    private Date creationDate;
+    private LocalDate creationDate;
 }

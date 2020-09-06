@@ -3,7 +3,7 @@ package com.app.cms.dto.mapper;
 import com.app.cms.dto.CategoryDto;
 import com.app.cms.dto.converter.CategoryConverter;
 import com.app.cms.entity.Category;
-import com.app.cms.entity.valueobjects.category.Name;
+import com.app.cms.valueobject.category.Name;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

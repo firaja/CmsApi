@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -49,7 +48,7 @@ public class ArticleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @CacheEvict(value = "articles", key = "#article.id")
+    @CacheEvict(value = "articles")
     public ArticleDto createArticle(@RequestBody ArticleDto article) {
         return articleConverter.toDto(articleService.save(articleConverter.toEntity(article)));
     }

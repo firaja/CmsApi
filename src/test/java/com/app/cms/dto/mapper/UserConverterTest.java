@@ -3,10 +3,10 @@ package com.app.cms.dto.mapper;
 import com.app.cms.dto.UserDto;
 import com.app.cms.dto.converter.UserConverter;
 import com.app.cms.entity.User;
-import com.app.cms.entity.valueobjects.user.Email;
-import com.app.cms.entity.valueobjects.user.Login;
-import com.app.cms.entity.valueobjects.user.Password;
 import com.app.cms.error.type.PasswordsAreNotSameException;
+import com.app.cms.valueobject.user.Email;
+import com.app.cms.valueobject.user.Login;
+import com.app.cms.valueobject.user.Password;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -63,7 +63,7 @@ public class UserConverterTest {
     public void shouldConvertEntityToDto() {
         //given
         var user = User.builder().id(-1L).login(Login.of("login")).email(Email.of("mail@mail.com"))
-                .password(Password.of(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
+                .password(Password.of(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'}, new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
 
         //when
         var userDto = userConverter.toDto(user);

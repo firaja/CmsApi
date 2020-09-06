@@ -1,15 +1,19 @@
 package com.app.cms.dto.converter;
 
+import com.app.cms.controller.UserController;
 import com.app.cms.dto.UserDto;
 import com.app.cms.entity.User;
-import com.app.cms.entity.valueobjects.user.Email;
-import com.app.cms.entity.valueobjects.user.Login;
-import com.app.cms.entity.valueobjects.user.Password;
+import com.app.cms.valueobject.user.Email;
+import com.app.cms.valueobject.user.Login;
+import com.app.cms.valueobject.user.Password;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class UserConverter implements ObjectConverter<User, UserDto> {
@@ -31,26 +35,42 @@ public class UserConverter implements ObjectConverter<User, UserDto> {
         userDto.setLogin(user.getLogin().getValue());
         userDto.setEmail(user.getEmail().getValue());
 
+        userDto.add(
+                linkTo(methodOn(UserController.class).getUserById(userDto.getId())).withSelfRel(),
+                linkTo(methodOn(UserController.class).getUsers(0, 10, null, null)).withRel("users"));
+
         return userDto;
-    }
-
-    @Override
-    public User toEntity(UserDto userDto) {
-        User user = modelMapper.map(userDto, User.class);
-        user.setLogin(Login.of(userDto.getLogin()));
-        user.setPassword(Password.of(userDto.getPassword(), userDto.getPasswordConfirm()));
-        user.setEmail(Email.of(userDto.getEmail()));
-
-        return user;
     }
 
     public Map<String, Object> toMap(UserDto userDto) {
         return jacksonModelMapper.convertValue(userDto, Map.class);
     }
 
-    public User toEntity(Map<String, Object> objectAsMap) {
-        return jacksonModelMapper.convertValue(objectAsMap, User.class);
+    @Override
+    public User toEntity(UserDto userDto) {
+        return toEntity(userDto, ConvertType.ALL_FIELDS_MUST_BE_SET);
     }
 
+
+    public User toEntity(Map<String, Object> objectAsMap) {
+        var userDto = jacksonModelMapper.convertValue(objectAsMap, UserDto.class);
+
+        return toEntity(userDto, ConvertType.PART_OF_FIELDS_CAN_BE_SET);
+    }
+
+    private User toEntity(UserDto userDto, ConvertType convertType) {
+        User user = modelMapper.map(userDto, User.class);
+
+        if (userDto.getLogin() != null || convertType == ConvertType.ALL_FIELDS_MUST_BE_SET)
+            user.setLogin(Login.of(userDto.getLogin()));
+
+        if (userDto.getPassword() != null || userDto.getPasswordConfirm() != null || convertType == ConvertType.ALL_FIELDS_MUST_BE_SET)
+            user.setPassword(Password.of(userDto.getPassword(), userDto.getPasswordConfirm()));
+
+        if (userDto.getEmail() != null || convertType == ConvertType.ALL_FIELDS_MUST_BE_SET)
+            user.setEmail(Email.of(userDto.getEmail()));
+
+        return user;
+    }
 
 }

@@ -1,8 +1,10 @@
 package com.app.cms.repository;
 
-import com.app.cms.entity.User;
+import javax.transaction.Transactional;
+import java.util.Map;
 
 
 public interface UserRepositoryMethods {
-    void updatePartially(long userId, User user);
+    @Transactional
+    void updatePartially(long userId, Map<String, Object> changedValues);
 }

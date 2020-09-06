@@ -3,11 +3,11 @@ package com.app.cms.service;
 
 import com.app.cms.dto.converter.UserConverter;
 import com.app.cms.entity.User;
-import com.app.cms.entity.valueobjects.user.Email;
-import com.app.cms.entity.valueobjects.user.Login;
-import com.app.cms.entity.valueobjects.user.Password;
 import com.app.cms.repository.UserRepository;
 import com.app.cms.validator.UserValidator;
+import com.app.cms.valueobject.user.Email;
+import com.app.cms.valueobject.user.Login;
+import com.app.cms.valueobject.user.Password;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,7 +43,7 @@ public class UserServiceTest {
     public void shouldCreateUser() {
         //given
         var user = User.builder().id(-1L).login(Login.of("login")).email(Email.of("mail@mail.com"))
-                .password(Password.of(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
+                .password(Password.of(new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'}, new char[]{'P', 'a', 's', 's', 'w', 'o', 'r', 'd'})).build();
 
         //when
         userService.save(user);
@@ -76,7 +76,7 @@ public class UserServiceTest {
         userService.saveUserPartially(-1L, userValues);
 
         //then
-        verify(userRepository, times(1)).updatePartially(any(Long.class), any(User.class));
+        verify(userRepository, times(1)).updatePartially(any(Long.class), any(Map.class));
 
     }
 

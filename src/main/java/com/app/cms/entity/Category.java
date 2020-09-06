@@ -1,6 +1,6 @@
 package com.app.cms.entity;
 
-import com.app.cms.entity.valueobjects.category.Name;
+import com.app.cms.valueobject.category.Name;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

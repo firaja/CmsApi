@@ -1,11 +1,11 @@
-package com.app.cms.entity.valueobjects.comment;
+package com.app.cms.valueobject.article;
 
 import lombok.*;
 import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Immutable
 @Getter
@@ -17,12 +17,14 @@ import java.util.Date;
 public class CreationDate {
 
     @Column(name = "creationDate")
-    private Date value;
+    private LocalDate value;
 
-    public static CreationDate of(Date value) {
-        if (value == null || value.after(new Date()))
-            throw new IllegalArgumentException("Creation date must be in the past");
+    public static CreationDate of(LocalDate value) {
+        if (value == null)
+            throw new IllegalArgumentException("CreationDate must be defined");
 
         return new CreationDate(value);
     }
+
+
 }

@@ -1,4 +1,4 @@
-package com.app.cms.entity.valueobjects.category;
+package com.app.cms.valueobject.category;
 
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;

@@ -3,11 +3,11 @@ package com.app.cms.dto.converter;
 import com.app.cms.controller.ArticleController;
 import com.app.cms.dto.ArticleDto;
 import com.app.cms.entity.Article;
-import com.app.cms.entity.valueobjects.article.Content;
-import com.app.cms.entity.valueobjects.article.Rating;
-import com.app.cms.entity.valueobjects.article.Title;
 import com.app.cms.repository.CategoryRepository;
 import com.app.cms.repository.UserRepository;
+import com.app.cms.valueobject.article.Content;
+import com.app.cms.valueobject.article.Rating;
+import com.app.cms.valueobject.article.Title;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -47,7 +47,7 @@ public class ArticleConverter implements ObjectConverter<Article, ArticleDto> {
 
         articleDto.add(
                 linkTo(methodOn(ArticleController.class).getArticleById(article.getId())).withSelfRel(),
-                linkTo(methodOn(ArticleController.class).getAllArticles(0, 10, null, null)).withRel("articles"));
+                linkTo(methodOn(ArticleController.class).getArticles(0, 10, null, null)).withRel("articles"));
 
         return articleDto;
     }

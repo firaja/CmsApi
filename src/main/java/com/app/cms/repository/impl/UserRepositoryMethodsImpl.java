@@ -1,12 +1,14 @@
 package com.app.cms.repository.impl;
 
-import com.app.cms.entity.User;
 import com.app.cms.repository.UserRepositoryMethods;
-import com.app.cms.repository.utils.CustomCriteriaBuilder;
+import com.app.cms.repository.utils.QueryBuilder;
+import com.app.cms.valueobject.user.Password;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Map;
+import java.util.Objects;
 
 
 @Repository
@@ -16,13 +18,23 @@ public class UserRepositoryMethodsImpl implements UserRepositoryMethods {
     EntityManager entityManager;
 
     @Override
-    public void updatePartially(long userId, User user) {
-        var customCriteriaBuilder = new CustomCriteriaBuilder(User.class, entityManager);
+    public void updatePartially(long userId, Map<String, Object> changedValues) {
+        handlePasswordInPartialUpdate(changedValues);
 
-        customCriteriaBuilder.setIfNotNull("login", user.getLogin());
-        customCriteriaBuilder.setIfNotNull("email", user.getEmail());
-        customCriteriaBuilder.setIfNotNull("password", user.getPassword());
+        new QueryBuilder("Users").addParameters(changedValues).whereId(userId).runQuery(entityManager);
+    }
 
-        customCriteriaBuilder.execute();
+    private void handlePasswordInPartialUpdate(Map<String, Object> changedValues) {
+        if (changedValues.containsKey("password")) {
+            Objects.requireNonNull(changedValues.get("password"));
+            Objects.requireNonNull(changedValues.get("passwordConfirm"));
+
+            String passwordValue = (String) changedValues.get("password");
+            String passwordConfirm = (String) changedValues.get("passwordConfirm");
+
+            var password = Password.of(passwordValue.toCharArray(), passwordConfirm.toCharArray());
+            changedValues.put("password", password.getValue());
+            changedValues.remove("passwordConfirm");
+        }
     }
 }

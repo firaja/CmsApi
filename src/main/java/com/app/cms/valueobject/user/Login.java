@@ -1,4 +1,4 @@
-package com.app.cms.entity.valueobjects.user;
+package com.app.cms.valueobject.user;
 
 import com.app.cms.error.type.InvalidLoginException;
 import lombok.*;
@@ -22,7 +22,7 @@ public final class Login {
     private String value;
 
     public static Login of(String value) {
-        if (StringUtils.isBlank(value) || value.length() < 3 && value.length() > 20)
+        if (StringUtils.isBlank(value) || value.length() < 3 || value.length() > 20)
             throw new InvalidLoginException("Login should be between 3 and 20 letters");
 
         return new Login(value);

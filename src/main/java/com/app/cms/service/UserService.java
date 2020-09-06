@@ -1,10 +1,8 @@
 package com.app.cms.service;
 
 import com.app.cms.dto.converter.UserConverter;
-import com.app.cms.entity.Article;
 import com.app.cms.entity.User;
 import com.app.cms.repository.UserRepository;
-
 import com.app.cms.validator.UserValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,12 +31,12 @@ public class UserService {
         return user;
     }
 
-    public void saveUserPartially(Long userId, Map<String, Object> fields) {
-        var user = userConverter.toEntity(fields);
+    public void saveUserPartially(Long userId, Map<String, Object> changedValues) {
+        var user = userConverter.toEntity(changedValues);
         user.setId(userId);
-        userValidator.validateOnSave(user);
 
-        userRepository.updatePartially(userId, user);
+        userValidator.validateOnSave(user);
+        userRepository.updatePartially(userId, changedValues);
     }
 
     public void delete(Long userId) {

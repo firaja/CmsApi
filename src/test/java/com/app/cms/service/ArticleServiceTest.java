@@ -1,10 +1,10 @@
 package com.app.cms.service;
 
 import com.app.cms.entity.Article;
-import com.app.cms.entity.valueobjects.article.Content;
-import com.app.cms.entity.valueobjects.article.Title;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.repository.CommentRepository;
+import com.app.cms.valueobject.article.Content;
+import com.app.cms.valueobject.article.Title;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -63,13 +63,4 @@ public class ArticleServiceTest {
         verify(articleRepository, times(1)).save(any());
     }
 
-    @Test
-    public void shouldReturnArticleByCriteria() {
-        //given
-
-
-        //when
-
-        //then
-    }
 }

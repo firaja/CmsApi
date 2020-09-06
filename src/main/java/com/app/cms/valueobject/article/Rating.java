@@ -1,4 +1,4 @@
-package com.app.cms.entity.valueobjects.article;
+package com.app.cms.valueobject.article;
 
 import lombok.*;
 import org.springframework.data.annotation.Immutable;
@@ -32,6 +32,9 @@ public class Rating {
 
         if (ratingCount < 0)
             throw new IllegalArgumentException("Rating count must be more than 0");
+
+        if (ratingCount == 0 && ratingValue > 0)
+            throw new IllegalArgumentException("Wrong data, rating value is set but rating count is zero");
 
         return new Rating(ratingValue, ratingCount);
     }

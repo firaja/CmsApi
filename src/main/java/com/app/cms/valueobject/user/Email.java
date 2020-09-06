@@ -1,4 +1,4 @@
-package com.app.cms.entity.valueobjects.user;
+package com.app.cms.valueobject.user;
 
 import com.app.cms.error.type.InvalidEmailException;
 import lombok.*;
@@ -21,6 +21,9 @@ public class Email {
     private String value;
 
     public static Email of(String value) {
+        if (value == null)
+            throw new IllegalArgumentException("Email value must be set");
+
         if (!EmailValidator.getInstance().isValid(value))
             throw new InvalidEmailException("Email is not valid");
 

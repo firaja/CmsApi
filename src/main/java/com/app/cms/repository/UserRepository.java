@@ -1,7 +1,7 @@
 package com.app.cms.repository;
 
-import com.app.cms.entity.Article;
 import com.app.cms.entity.User;
+import com.app.cms.valueobject.user.Login;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,8 +11,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User>, UserRepositoryMethods {
-    boolean existsByLoginAndIdNot(String login, Long id);
-    boolean existsByLogin(String login);
+    boolean existsByLogin(Login login);
+
+    User findByLoginValue(String login);
+
+    @Query("select count(u)>0 from User u where u.login = :login and u.id = :id")
+    boolean existsByLoginAndIdNot(Login login, Long id);
 
     @Modifying
     @Query("update User u set u.password = :password where u.id = :id")

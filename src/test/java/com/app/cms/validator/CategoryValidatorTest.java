@@ -1,11 +1,11 @@
 package com.app.cms.validator;
 
 import com.app.cms.entity.Category;
-import com.app.cms.entity.valueobjects.category.Name;
 import com.app.cms.error.type.NameIsInUseException;
 import com.app.cms.error.type.ObjectHaveReferencedObjects;
 import com.app.cms.repository.ArticleRepository;
 import com.app.cms.repository.CategoryRepository;
+import com.app.cms.valueobject.category.Name;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
